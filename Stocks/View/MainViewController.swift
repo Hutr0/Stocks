@@ -36,7 +36,7 @@ class MainViewController: UITableViewController {
 
         mainManager.getName(quote: stocksName[indexPath.row]) { (name) in
             DispatchQueue.main.async {
-                cell.label.text = name
+                cell.name.text = name
             }
         }
 

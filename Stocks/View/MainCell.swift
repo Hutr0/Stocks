@@ -9,5 +9,8 @@ import UIKit
 
 class MainCell: UITableViewCell {
     
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var ticker: UILabel!
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var cost: UILabel!
+    @IBOutlet weak var change: UILabel!
 }

@@ -23,20 +23,49 @@
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXC-z4-b7j">
-                                            <rect key="frame" x="20.000000000000004" y="10.999999999999998" width="41.333333333333343" height="20.333333333333329"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXC-z4-b7j">
+                                            <rect key="frame" x="307" y="57" width="47" height="18"/>
+                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ge-HX-qG9">
+                                            <rect key="frame" x="20" y="60.666666666666657" width="49" height="24"/>
+                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tiker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1q-pQ-JdF">
+                                            <rect key="frame" x="20.000000000000004" y="11" width="63.333333333333343" height="33.666666666666664"/>
+                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="28"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cost" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2S-U0-yJV">
+                                            <rect key="frame" x="307" y="11" width="47" height="30"/>
+                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="25"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="vXC-z4-b7j" firstAttribute="top" secondItem="B56-Af-S8q" secondAttribute="topMargin" id="BIB-uk-NyV"/>
-                                        <constraint firstItem="vXC-z4-b7j" firstAttribute="leading" secondItem="B56-Af-S8q" secondAttribute="leadingMargin" id="mMN-P4-lIH"/>
+                                        <constraint firstItem="2ge-HX-qG9" firstAttribute="top" secondItem="j1q-pQ-JdF" secondAttribute="bottom" constant="16" id="HOo-2S-GCY"/>
+                                        <constraint firstItem="j1q-pQ-JdF" firstAttribute="leading" secondItem="B56-Af-S8q" secondAttribute="leadingMargin" id="Hcz-Ku-atI"/>
+                                        <constraint firstItem="2ge-HX-qG9" firstAttribute="leading" secondItem="B56-Af-S8q" secondAttribute="leadingMargin" id="QkU-eb-Kz7"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="e2S-U0-yJV" secondAttribute="trailing" constant="16" id="SZs-pr-NUX"/>
+                                        <constraint firstItem="vXC-z4-b7j" firstAttribute="top" secondItem="e2S-U0-yJV" secondAttribute="bottom" constant="16" id="g9j-M7-MVd"/>
+                                        <constraint firstItem="vXC-z4-b7j" firstAttribute="leading" relation="lessThanOrEqual" secondItem="2ge-HX-qG9" secondAttribute="trailing" constant="238" id="jxg-f6-wal"/>
+                                        <constraint firstItem="j1q-pQ-JdF" firstAttribute="top" secondItem="B56-Af-S8q" secondAttribute="topMargin" id="lNN-LB-ziA"/>
+                                        <constraint firstItem="e2S-U0-yJV" firstAttribute="top" secondItem="B56-Af-S8q" secondAttribute="topMargin" id="pCC-si-p11"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="vXC-z4-b7j" secondAttribute="trailing" constant="16" id="u6b-RJ-fL7"/>
+                                        <constraint firstItem="e2S-U0-yJV" firstAttribute="leading" relation="lessThanOrEqual" secondItem="j1q-pQ-JdF" secondAttribute="trailing" constant="223.66666666666666" id="uqX-fe-OiH"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="label" destination="vXC-z4-b7j" id="W5I-T5-nUn"/>
+                                    <outlet property="change" destination="vXC-z4-b7j" id="4Vf-U7-8ZU"/>
+                                    <outlet property="cost" destination="e2S-U0-yJV" id="5zM-xF-ExF"/>
+                                    <outlet property="name" destination="2ge-HX-qG9" id="wQ2-D7-uVp"/>
+                                    <outlet property="ticker" destination="j1q-pQ-JdF" id="6Xo-YY-Tce"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
