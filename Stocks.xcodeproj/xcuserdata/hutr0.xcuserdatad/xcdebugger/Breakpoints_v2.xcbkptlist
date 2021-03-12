@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "81163165-06A2-4511-954F-C506703EAE29"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5E47234F-6CDF-4C08-BE00-7A7BD8BFF523"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Stocks/ViewModel/MainManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "getName(quote:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5E47234F-6CDF-4C08-BE00-7A7BD8BFF523 - 28a9f2a037313628"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Stocks.MainManager.getName(quote: Swift.String, completion: (Swift.String) -&gt; ()) -&gt; ()"
+                  moduleName = "Stocks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hutr0/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode%20Projects/%D0%9C%D0%BE%D0%B8%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Stocks/Stocks/ViewModel/MainManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "49">
+               </Location>
+               <Location
+                  uuid = "5E47234F-6CDF-4C08-BE00-7A7BD8BFF523 - 6a002121bd6b320"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.String) -&gt; () in Stocks.MainManager.getName(quote: Swift.String, completion: (Swift.String) -&gt; ()) -&gt; ()"
+                  moduleName = "Stocks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hutr0/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode%20Projects/%D0%9C%D0%BE%D0%B8%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Stocks/Stocks/ViewModel/MainManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "41">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F6E2D529-FECD-43EB-B542-2347D50FC482"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Stocks/ViewModel/MainManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "getName(quote:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
