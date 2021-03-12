@@ -14,6 +14,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        let nv = window?.rootViewController as! UINavigationController
+        let mv = nv.topViewController as! MainViewController
+        
+        mv.mainManager.loadStockNames { (items) in
+            for item in items {
+                mv.stocks.append(MainCellModel(tiker: item[0], name: item[1], cost: nil, change: nil))
+            }
+            
+            DispatchQueue.main.async {
+                mv.tableView.reloadData()
+            }
+        }
+        
+//        mv.mainManager.loadStockNames { (tikers) in
+//            mv.stocksName = tikers
+//
+//            DispatchQueue.main.async {
+//
+//                mv.tableView.reloadData()
+//            }
+//        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct Trending: Decodable {
+struct Collection: Decodable {
     
+    let start: Int
     let count: Int
-    let quotes: [String]
-    let jobTimestamp: Int
-    let startInterval: Int
+    let total: Int
+    let description: String
+    let quotes: [Quote]
 }

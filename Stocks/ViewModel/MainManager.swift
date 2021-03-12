@@ -11,17 +11,17 @@ class MainManager {
     
     let networkManager = NetworkManager()
     
-    func loadStockNames(completion: @escaping ([String]) -> ()) {
+    func loadStockNames(completion: @escaping ([[String]]) -> ()) {
         
         networkManager.getMostWachedStocks() { (returnedQuotes) in
             completion(returnedQuotes)
         }
     }
     
-    func getName(quote: String, completion: @escaping (String) -> ()) {
-        
-        networkManager.getNames(quote: quote) { (name) in
-            completion(name)
-        }
-    }
+//    func getName(quote: String, completion: @escaping (String) -> ()) {
+//
+//        networkManager.getNames(quote: quote) { (name) in
+//            completion(name)
+//        }
+//    }
 }

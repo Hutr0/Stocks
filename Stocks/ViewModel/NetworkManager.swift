@@ -9,9 +9,9 @@ import UIKit
 
 class NetworkManager {
     
-    func getMostWachedStocks(completion: @escaping ([String]) -> ()) {
+    func getMostWachedStocks(completion: @escaping ([[String]]) -> ()) {
         
-        guard let url = URL(string: "https://mboum.com/api/v1/tr/trending") else { return }
+        guard let url = URL(string: "https://mboum.com/api/v1/co/collections/?list=most_actives&start=0") else { return }
         
         let headers = [
             "X-Mboum-Secret": "demo"
@@ -33,47 +33,53 @@ class NetworkManager {
             
             do {
                 let decoder = JSONDecoder()
-                let trending = try decoder.decode([Trending].self, from: data)
+                let collection = try decoder.decode(Collection.self, from: data)
                 
-                completion(trending.first!.quotes)
+                var names = [[String]]()
+                
+                for quote in collection.quotes {
+                    names.append([quote.symbol, quote.shortName])
+                }
+                
+                completion(names)
             } catch let error {
                 print("Decoder error: \(error.localizedDescription)")
             }
         }.resume()
     }
     
-    func getNames(quote: String, completion: @escaping (String) -> ()) {
-        
-        guard let url = URL(string: "https://finnhub.io/api/v1/stock/profile2?symbol=\(quote)") else { return }
-        
-        let headers = [
-            "X-Finnhub-Token": "c14c7ff48v6t8t43brk0"
-        ]
-        
-        let request = NSMutableURLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
-        
-        let session = URLSession.shared
-        session.dataTask(with: request as URLRequest) { (data, response, error) in
-            
-            if error != nil {
-                print(error!.localizedDescription)
-                return
-            }
-            
-            guard let data = data else { return }
-            
-            do {
-                let decoder = JSONDecoder()
-                let profile = try decoder.decode(CompanyProfile.self, from: data)
-                
-                guard let name = profile.name else { return }
-                
-                completion(name)
-            } catch let error {
-                print("Decoder error: \(error.localizedDescription)")
-            }
-        }.resume()
-    }
+//    func getNames(quote: String, completion: @escaping (String) -> ()) {
+//
+//        guard let url = URL(string: "https://finnhub.io/api/v1/stock/profile2?symbol=\(quote)") else { return }
+//
+//        let headers = [
+//            "X-Finnhub-Token": "c14c7ff48v6t8t43brk0"
+//        ]
+//
+//        let request = NSMutableURLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
+//        request.httpMethod = "GET"
+//        request.allHTTPHeaderFields = headers
+//
+//        let session = URLSession.shared
+//        session.dataTask(with: request as URLRequest) { (data, response, error) in
+//
+//            if error != nil {
+//                print(error!.localizedDescription)
+//                return
+//            }
+//
+//            guard let data = data else { return }
+//
+//            do {
+//                let decoder = JSONDecoder()
+//                let profile = try decoder.decode(CompanyProfile.self, from: data)
+//
+//                guard let name = profile.name else { return }
+//
+//                completion(name)
+//            } catch let error {
+//                print("Decoder error: \(error.localizedDescription)")
+//            }
+//        }.resume()
+//    }
 }

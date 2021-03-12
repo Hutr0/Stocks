@@ -16,9 +16,10 @@
 		E065E75425FBA7A500E0E11E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E75325FBA7A500E0E11E /* MainViewController.swift */; };
 		E065E75825FBA7C600E0E11E /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E75725FBA7C600E0E11E /* MainCell.swift */; };
 		E065E75B25FBA83C00E0E11E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E75A25FBA83C00E0E11E /* NetworkManager.swift */; };
-		E065E75E25FBADFC00E0E11E /* Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E75D25FBADFC00E0E11E /* Trending.swift */; };
+		E065E75E25FBADFC00E0E11E /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E75D25FBADFC00E0E11E /* Collection.swift */; };
 		E065E76325FBAFB100E0E11E /* MainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E76225FBAFB100E0E11E /* MainManager.swift */; };
-		E065E76725FBB4C000E0E11E /* CompanyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E76625FBB4C000E0E11E /* CompanyProfile.swift */; };
+		E065E76725FBB4C000E0E11E /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E76625FBB4C000E0E11E /* Quote.swift */; };
+		E0B81B4F25FBE4640038A8B0 /* MainCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B81B4E25FBE4640038A8B0 /* MainCellModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,9 +34,10 @@
 		E065E75325FBA7A500E0E11E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E065E75725FBA7C600E0E11E /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
 		E065E75A25FBA83C00E0E11E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		E065E75D25FBADFC00E0E11E /* Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trending.swift; sourceTree = "<group>"; };
+		E065E75D25FBADFC00E0E11E /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		E065E76225FBAFB100E0E11E /* MainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainManager.swift; sourceTree = "<group>"; };
-		E065E76625FBB4C000E0E11E /* CompanyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyProfile.swift; sourceTree = "<group>"; };
+		E065E76625FBB4C000E0E11E /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
+		E0B81B4E25FBE4640038A8B0 /* MainCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +113,9 @@
 		E065E75125FBA6D300E0E11E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E065E75D25FBADFC00E0E11E /* Trending.swift */,
-				E065E76625FBB4C000E0E11E /* CompanyProfile.swift */,
+				E065E75D25FBADFC00E0E11E /* Collection.swift */,
+				E065E76625FBB4C000E0E11E /* Quote.swift */,
+				E0B81B4E25FBE4640038A8B0 /* MainCellModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -187,11 +190,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0B81B4F25FBE4640038A8B0 /* MainCellModel.swift in Sources */,
 				E065E75B25FBA83C00E0E11E /* NetworkManager.swift in Sources */,
 				E065E73625FBA56300E0E11E /* AppDelegate.swift in Sources */,
-				E065E75E25FBADFC00E0E11E /* Trending.swift in Sources */,
+				E065E75E25FBADFC00E0E11E /* Collection.swift in Sources */,
 				E065E74025FBA56300E0E11E /* Stocks.xcdatamodeld in Sources */,
-				E065E76725FBB4C000E0E11E /* CompanyProfile.swift in Sources */,
+				E065E76725FBB4C000E0E11E /* Quote.swift in Sources */,
 				E065E76325FBAFB100E0E11E /* MainManager.swift in Sources */,
 				E065E73825FBA56300E0E11E /* SceneDelegate.swift in Sources */,
 				E065E75425FBA7A500E0E11E /* MainViewController.swift in Sources */,
