@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         net.getStocksName { (items) in
             
             for item in items {
-                mv.stocks.append(MainCellModel(tiker: item[0], name: item[1], cost: nil, change: nil))
+                mv.stocks.append(MainCellModel(tiker: item[0], name: item[1], currency: item[2], cost: nil, change: nil))
             }
             
             DispatchQueue.main.async {

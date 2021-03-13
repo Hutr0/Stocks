@@ -11,6 +11,7 @@ struct MainCellModel {
     
     let tiker: String
     let name: String
+    var currency: String?
     var cost: Float?
     var change: Float?
 }

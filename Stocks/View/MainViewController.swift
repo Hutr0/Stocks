@@ -24,8 +24,31 @@ class MainViewController: UITableViewController {
         
         cell.ticker.text = stock.tiker
         cell.name.text = stock.name
-        cell.cost.text = String(stock.cost ?? -1)
-        cell.change.text = String(stock.change ?? -1)
+        
+        guard let cost = stock.cost, let change = stock.change else {
+            
+            cell.currency.text = ""
+            cell.cost.text = ""
+            cell.change.text = ""
+            
+            return cell
+        }
+        
+        if String(change).hasPrefix("-") {
+            cell.change.textColor = .red
+        } else {
+            cell.change.textColor = .systemGreen
+        }
+        
+        switch stock.currency {
+        case "USD":
+            cell.currency.text = "$"
+        default:
+            cell.currency.text = "?"
+        }
+        
+        cell.cost.text = "\(cost)%"
+        cell.change.text = "\(change)%"
 
         return cell
     }

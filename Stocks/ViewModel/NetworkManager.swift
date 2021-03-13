@@ -35,13 +35,13 @@ class NetworkManager {
                 let decoder = JSONDecoder()
                 let collection = try decoder.decode(Collection.self, from: data)
                 
-                var names = [[String]]()
+                var quotes = [[String]]()
                 
                 for quote in collection.quotes {
-                    names.append([quote.symbol, quote.shortName])
+                    quotes.append([quote.symbol, quote.shortName, quote.currency])
                 }
                 
-                completion(names)
+                completion(quotes)
             } catch let error {
                 print("Decoder error: \(error.localizedDescription)")
             }

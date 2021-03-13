@@ -11,6 +11,7 @@ class MainCell: UITableViewCell {
     
     @IBOutlet weak var ticker: UILabel!
     @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var currency: UILabel!
     @IBOutlet weak var cost: UILabel!
     @IBOutlet weak var change: UILabel!
 }
