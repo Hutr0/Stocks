@@ -9,18 +9,18 @@ import UIKit
 
 class MainViewController: UITableViewController {
     
-    var stocks = [MainModel]()
+    let manager = MainManager()
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stocks.count
+        return manager.stocks.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MainCell
         
-        let stock = stocks[indexPath.row]
+        let stock = manager.stocks[indexPath.row]
         
         cell.ticker.text = stock.tiker
         cell.name.text = stock.name
@@ -61,31 +61,8 @@ class MainViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        let favourite = favouriteAction(indexPath)
+        let favourite = manager.favouriteAction(indexPath)
         
         return UISwipeActionsConfiguration(actions: [favourite])
-    }
-    
-    func favouriteAction(_ indexPath: IndexPath) -> UIContextualAction {
-        
-        var stock = stocks[indexPath.row]
-        
-        let action = UIContextualAction(style: .normal, title: "") { (action, view, completion) in
-            
-            stock.isFavourite.toggle()
-            
-            self.stocks[indexPath.row] = stock
-            completion(true)
-        }
-        
-        if stock.isFavourite {
-            action.backgroundColor = .red
-            action.image = UIImage(systemName: "heart.fill")
-        } else {
-            action.backgroundColor = .systemGray2
-            action.image = UIImage(systemName: "heart")
-        }
-        
-        return action
     }
 }

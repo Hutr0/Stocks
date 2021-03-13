@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E000A51825FD3C1F002FE220 /* MainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A51725FD3C1E002FE220 /* MainManager.swift */; };
 		E065E73625FBA56300E0E11E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E73525FBA56300E0E11E /* AppDelegate.swift */; };
 		E065E73825FBA56300E0E11E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E73725FBA56300E0E11E /* SceneDelegate.swift */; };
 		E065E73D25FBA56300E0E11E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E065E73B25FBA56300E0E11E /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E000A51725FD3C1E002FE220 /* MainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainManager.swift; sourceTree = "<group>"; };
 		E065E73225FBA56300E0E11E /* Stocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E065E73525FBA56300E0E11E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E065E73725FBA56300E0E11E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,7 +89,6 @@
 				E065E74125FBA56400E0E11E /* Assets.xcassets */,
 				E065E74325FBA56400E0E11E /* LaunchScreen.storyboard */,
 				E065E74625FBA56400E0E11E /* Info.plist */,
-				E065E73E25FBA56300E0E11E /* Stocks.xcdatamodeld */,
 			);
 			path = "Support Files";
 			sourceTree = "<group>";
@@ -95,6 +96,7 @@
 		E065E74F25FBA6C400E0E11E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				E000A51725FD3C1E002FE220 /* MainManager.swift */,
 				E065E75A25FBA83C00E0E11E /* NetworkManager.swift */,
 			);
 			path = ViewModel;
@@ -116,6 +118,7 @@
 				E065E76625FBB4C000E0E11E /* CollectionQuote.swift */,
 				E0B81B5325FBF7E90038A8B0 /* StockQuote.swift */,
 				E0B81B4E25FBE4640038A8B0 /* MainModel.swift */,
+				E065E73E25FBA56300E0E11E /* Stocks.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E000A51825FD3C1F002FE220 /* MainManager.swift in Sources */,
 				E0B81B4F25FBE4640038A8B0 /* MainModel.swift in Sources */,
 				E065E75B25FBA83C00E0E11E /* NetworkManager.swift in Sources */,
 				E065E73625FBA56300E0E11E /* AppDelegate.swift in Sources */,

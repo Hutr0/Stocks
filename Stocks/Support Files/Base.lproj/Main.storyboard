@@ -103,7 +103,7 @@
                             <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="38"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textShadowColor" systemColor="secondaryLabelColor"/>
-                            <offsetWrapper key="textShadowOffset" horizontal="0.0" vertical="-2"/>
+                            <offsetWrapper key="textShadowOffset" horizontal="1" vertical="0.0"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
