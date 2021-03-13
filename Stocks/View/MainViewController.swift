@@ -6,10 +6,37 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewController: UITableViewController {
     
     let manager = MainManager()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        manager.loadStocks(tableView: tableView)
+        
+//        let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
+//        do {
+//            manager.stocks = try manager.context.fetch(fetchRequest)
+//        } catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
+        
+//        let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
+//
+//        do {
+//            let object = try manager.context.fetch(fetchRequest)
+//            for o in object {
+//
+//                manager.context.delete(o)
+//            }
+//            try manager.context.save()
+//        } catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
+    }
 
     // MARK: - Table view data source
 
@@ -25,16 +52,16 @@ class MainViewController: UITableViewController {
         cell.ticker.text = stock.tiker
         cell.name.text = stock.name
         
-        guard let cost = stock.cost, let change = stock.change else {
-            
+        guard stock.isCostSet else {
+
             cell.currency.text = ""
             cell.cost.text = ""
             cell.change.text = ""
-            
+
             return cell
         }
         
-        if String(change).hasPrefix("-") {
+        if String(stock.change).hasPrefix("-") {
             cell.change.textColor = .red
         } else {
             cell.change.textColor = .systemGreen
@@ -47,8 +74,8 @@ class MainViewController: UITableViewController {
             cell.currency.text = "?"
         }
         
-        cell.cost.text = String(cost)
-        cell.change.text = String(format: "%.2f", change) + "%"
+        cell.cost.text = String(stock.cost)
+        cell.change.text = String(format: "%.2f", stock.change) + "%"
 
         return cell
     }

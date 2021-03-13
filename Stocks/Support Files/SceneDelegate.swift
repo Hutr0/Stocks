@@ -20,34 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let delegate = UIApplication.shared.delegate as! AppDelegate
         mv.manager.context = delegate.persistentContainer.viewContext
-        
-        let net = NetworkManager()
-        
-        net.getStocksName { (items) in
-            
-            for item in items {
-                mv.manager.stocks.append(MainModel(tiker: item[0], name: item[1], currency: item[2], cost: nil, change: nil))
-            }
-            
-            DispatchQueue.main.async {
-                mv.tableView.reloadData()
-            }
-            
-            var i = 0
-            
-            for item in items {
-                net.getStocksOpenCost(tiker: item[0], number: i) { (cost, j) in
-                    
-                    mv.manager.stocks[j].cost = cost.first
-                    mv.manager.stocks[j].change = cost.last
-                    
-                    DispatchQueue.main.async {
-                        mv.tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
-                    }
-                }
-                i += 1
-            }
-        }
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

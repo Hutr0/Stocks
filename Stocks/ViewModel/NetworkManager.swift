@@ -78,7 +78,7 @@ class NetworkManager {
                 let current = cost.c
                 let open = cost.o
                 
-                let percent = (current - open) - 1
+                let percent = current - open
                 
                 completion([current, percent], number)
             } catch let error {
