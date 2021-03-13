@@ -13,5 +13,5 @@ struct Collection: Decodable {
     let count: Int
     let total: Int
     let description: String
-    let quotes: [CollectionNameQuote]
+    let quotes: [CollectionQuote]
 }

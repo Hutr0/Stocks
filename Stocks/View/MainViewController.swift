@@ -9,7 +9,7 @@ import UIKit
 
 class MainViewController: UITableViewController {
     
-    var stocks = [MainCellModel]()
+    var stocks = [MainModel]()
 
     // MARK: - Table view data source
 
@@ -47,8 +47,8 @@ class MainViewController: UITableViewController {
             cell.currency.text = "?"
         }
         
-        cell.cost.text = "\(cost)%"
-        cell.change.text = "\(change)%"
+        cell.cost.text = String(cost)
+        cell.change.text = String(format: "%.2f", change) + "%"
 
         return cell
     }
@@ -57,5 +57,35 @@ class MainViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let favourite = favouriteAction(indexPath)
+        
+        return UISwipeActionsConfiguration(actions: [favourite])
+    }
+    
+    func favouriteAction(_ indexPath: IndexPath) -> UIContextualAction {
+        
+        var stock = stocks[indexPath.row]
+        
+        let action = UIContextualAction(style: .normal, title: "") { (action, view, completion) in
+            
+            stock.isFavourite.toggle()
+            
+            self.stocks[indexPath.row] = stock
+            completion(true)
+        }
+        
+        if stock.isFavourite {
+            action.backgroundColor = .red
+            action.image = UIImage(systemName: "heart.fill")
+        } else {
+            action.backgroundColor = .systemGray2
+            action.image = UIImage(systemName: "heart")
+        }
+        
+        return action
     }
 }

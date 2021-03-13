@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CollectionNameQuote: Decodable {
+struct CollectionQuote: Decodable {
     
     let currency: String
     let shortName: String
