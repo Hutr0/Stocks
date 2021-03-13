@@ -50,14 +50,13 @@ class NetworkManager {
     
     func getStocksOpenCost(tiker: String, number: Int, completion: @escaping ([Float], _ number: Int) -> ()) {
         
-        
         guard let url = URL(string: "https://finnhub.io/api/v1/quote?symbol=\(tiker)") else { return }
         
         let headers = [
-            "X-Finnhub-Token" : "c14c7ff48v6t8t43brk0"
+            "X-Finnhub-Token" : "c16k5t748v6ppg7etbig"
         ]
         
-        let request = NSMutableURLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
+        let request = NSMutableURLRequest(url: url)
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         
@@ -66,6 +65,7 @@ class NetworkManager {
             
             if error != nil {
                 print(error!.localizedDescription)
+                completion([], -1)
                 return
             }
             

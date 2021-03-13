@@ -45,38 +45,10 @@ class MainViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MainCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MainCell
         
-        let stock = manager.stocks[indexPath.row]
+        cell = manager.getConfiguredCell(indexPath: indexPath, cell: cell)
         
-        cell.ticker.text = stock.tiker
-        cell.name.text = stock.name
-        
-        guard stock.isCostSet else {
-
-            cell.currency.text = ""
-            cell.cost.text = ""
-            cell.change.text = ""
-
-            return cell
-        }
-        
-        if String(stock.change).hasPrefix("-") {
-            cell.change.textColor = .red
-        } else {
-            cell.change.textColor = .systemGreen
-        }
-        
-        switch stock.currency {
-        case "USD":
-            cell.currency.text = "$"
-        default:
-            cell.currency.text = "?"
-        }
-        
-        cell.cost.text = String(stock.cost)
-        cell.change.text = String(format: "%.2f", stock.change) + "%"
-
         return cell
     }
     
@@ -91,5 +63,19 @@ class MainViewController: UITableViewController {
         let favourite = manager.favouriteAction(indexPath)
         
         return UISwipeActionsConfiguration(actions: [favourite])
+    }
+    
+    @IBAction func removeAllStocks(_ sender: UIBarButtonItem) {
+        let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
+        do {
+            let object = try manager.context.fetch(fetchRequest)
+            for o in object {
+                manager.context.delete(o)
+            }
+            try manager.context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        tableView.reloadData()
     }
 }

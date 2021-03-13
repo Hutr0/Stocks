@@ -11,8 +11,8 @@ import CoreData
 class MainManager {
     
     var context: NSManagedObjectContext!
-    
     var stocks = [Stock]()
+    var isNilStocks: Bool = false
     
     func loadStocks(tableView: UITableView) {
         
@@ -23,7 +23,10 @@ class MainManager {
         do {
             let fetchedStokes = try self.context.fetch(fetchRequest)
             
-            if fetchedStokes != [] {
+            isNilStocks = fetchedStokes == [] ? true : false
+            
+            if !isNilStocks {
+                print("123")
                 getNotNilStocks(fetchedStokes: fetchedStokes, tableView: tableView)
                 var i = 0
                 for stock in self.stocks {
@@ -32,6 +35,7 @@ class MainManager {
                     i += 1
                 }
             } else {
+                print("234")
                 getNilStocks(tableView: tableView)
             }
         } catch let error as NSError {
@@ -62,6 +66,51 @@ class MainManager {
         }
         
         return action
+    }
+    
+    func getConfiguredCell(indexPath: IndexPath, cell: MainCell) -> MainCell {
+        
+        if !self.isNilStocks {
+            let stock = self.stocks[indexPath.row]
+            
+            cell.ticker.text = stock.tiker
+            cell.name.text = stock.name
+            
+            guard stock.isCostSet else {
+                
+                cell.currency.text = ""
+                cell.cost.text = ""
+                cell.change.text = ""
+                
+                return cell
+            }
+            
+            if String(stock.change).hasPrefix("-") {
+                cell.change.textColor = .red
+            } else {
+                cell.change.textColor = .systemGreen
+            }
+            
+            switch stock.currency {
+            case "USD":
+                cell.currency.text = "$"
+            default:
+                cell.currency.text = "?"
+            }
+            
+            cell.cost.text = String(stock.cost)
+            cell.change.text = String(format: "%.2f", stock.change) + "%"
+            
+            return cell
+        } else {
+            cell.ticker.text = ""
+            cell.name.text = ""
+            cell.currency.text = ""
+            cell.cost.text = ""
+            cell.change.text = ""
+            
+            return cell
+        }
     }
     
     // MARK: - Private methods
@@ -158,14 +207,21 @@ class MainManager {
                 }
             }
             
+            self.isNilStocks = false
+            
             DispatchQueue.main.async {
                 tableView.reloadData()
             }
             
-            var i = -1
+            var i = 0
             
             for item in items {
                 net.getStocksOpenCost(tiker: item[0], number: i) { (cost, j) in
+                    
+                    if j == -1 {
+                        i -= 1
+                        return
+                    }
                     
                     let stock = self.stocks[j]
                     
@@ -176,7 +232,8 @@ class MainManager {
                     DataManager.save(context: self.context)
                     
                     DispatchQueue.main.async {
-                        tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
+                        //tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
+                        tableView.reloadData()
                     }
                 }
                 i += 1

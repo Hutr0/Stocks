@@ -84,7 +84,13 @@
                             <outlet property="delegate" destination="5He-um-LmY" id="8g2-SZ-N6q"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Stocks" id="NKr-Sp-ggt"/>
+                    <navigationItem key="navigationItem" title="Stocks" id="NKr-Sp-ggt">
+                        <barButtonItem key="rightBarButtonItem" title="Remove" id="ROM-wm-VWg">
+                            <connections>
+                                <action selector="removeAllStocks:" destination="5He-um-LmY" id="2Tf-sn-eFU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zoh-AK-F68" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
