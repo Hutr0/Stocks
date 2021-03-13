@@ -9,14 +9,19 @@ import Foundation
 
 class MainManager {
     
-    let networkManager = NetworkManager()
-    
-    func loadStockNames(completion: @escaping ([[String]]) -> ()) {
-        
-        networkManager.getMostWachedStocks() { (returnedQuotes) in
-            completion(returnedQuotes)
-        }
-    }
+//    let networkManager = NetworkManager()
+//    
+//    func loadStockNames(completion: @escaping ([[String]]) -> ()) {
+//        
+//        networkManager.getStocksInformation() { (returnedQuotes) in
+//            completion(returnedQuotes)
+//        }
+//    }
+//    
+//    func loadStockCosts(completion: @escaping ([[Float]]) -> ()) {
+//        
+//        //networkManager.
+//    }
     
 //    func getName(quote: String, completion: @escaping (String) -> ()) {
 //

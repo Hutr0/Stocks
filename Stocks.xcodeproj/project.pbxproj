@@ -20,6 +20,7 @@
 		E065E76325FBAFB100E0E11E /* MainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E76225FBAFB100E0E11E /* MainManager.swift */; };
 		E065E76725FBB4C000E0E11E /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E76625FBB4C000E0E11E /* Quote.swift */; };
 		E0B81B4F25FBE4640038A8B0 /* MainCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B81B4E25FBE4640038A8B0 /* MainCellModel.swift */; };
+		E0B81B5425FBF7E90038A8B0 /* StockQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B81B5325FBF7E90038A8B0 /* StockQuote.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		E065E76225FBAFB100E0E11E /* MainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainManager.swift; sourceTree = "<group>"; };
 		E065E76625FBB4C000E0E11E /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
 		E0B81B4E25FBE4640038A8B0 /* MainCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellModel.swift; sourceTree = "<group>"; };
+		E0B81B5325FBF7E90038A8B0 /* StockQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockQuote.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			children = (
 				E065E75D25FBADFC00E0E11E /* Collection.swift */,
 				E065E76625FBB4C000E0E11E /* Quote.swift */,
+				E0B81B5325FBF7E90038A8B0 /* StockQuote.swift */,
 				E0B81B4E25FBE4640038A8B0 /* MainCellModel.swift */,
 			);
 			path = Model;
@@ -193,6 +196,7 @@
 				E0B81B4F25FBE4640038A8B0 /* MainCellModel.swift in Sources */,
 				E065E75B25FBA83C00E0E11E /* NetworkManager.swift in Sources */,
 				E065E73625FBA56300E0E11E /* AppDelegate.swift in Sources */,
+				E0B81B5425FBF7E90038A8B0 /* StockQuote.swift in Sources */,
 				E065E75E25FBADFC00E0E11E /* Collection.swift in Sources */,
 				E065E74025FBA56300E0E11E /* Stocks.xcdatamodeld in Sources */,
 				E065E76725FBB4C000E0E11E /* Quote.swift in Sources */,

@@ -9,8 +9,6 @@ import UIKit
 
 class MainViewController: UITableViewController {
     
-    let mainManager = MainManager()
-    
     var stocks = [MainCellModel]()
 
     // MARK: - Table view data source
