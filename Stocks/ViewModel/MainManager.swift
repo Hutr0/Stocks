@@ -48,11 +48,7 @@ class MainManager {
             stock.isFavourite.toggle()
             self.stocks[indexPath.row] = stock
             
-            do {
-                try self.context.save()
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
+            DataManager.save(context: self.context)
             
             completion(true)
         }
@@ -68,6 +64,8 @@ class MainManager {
         return action
     }
     
+    // MARK: - Private methods
+    
     private func updateStocksCost(tableView: UITableView, tiker: String, number: Int) {
         let net = NetworkManager()
         
@@ -79,11 +77,7 @@ class MainManager {
             stock.change = cost[1]
             stock.isCostSet = true
             
-            do {
-                try self.context.save()
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
+            DataManager.save(context: self.context)
             
             DispatchQueue.main.async {
                 tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
@@ -118,11 +112,8 @@ class MainManager {
                     stockObject.currency = item[2]
                     stockObject.isCostSet = false
                     
-                    do {
-                        try self.context.save()
+                    DataManager.save(context: self.context) {
                         self.stocks.append(stockObject)
-                    } catch let error as NSError {
-                        print(error.localizedDescription)
                     }
                     
                     DispatchQueue.main.async {
@@ -137,11 +128,7 @@ class MainManager {
                         stock.change = cost[1]
                         stock.isCostSet = true
                         
-                        do {
-                            try self.context.save()
-                        } catch let error as NSError {
-                            print(error.localizedDescription)
-                        }
+                        DataManager.save(context: self.context)
                         
                         DispatchQueue.main.async {
                             tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
@@ -166,11 +153,8 @@ class MainManager {
                 stockObject.currency = item[2]
                 stockObject.isCostSet = false
                 
-                do {
-                    try self.context.save()
+                DataManager.save(context: self.context) {
                     self.stocks.append(stockObject)
-                } catch let error as NSError {
-                    print(error.localizedDescription)
                 }
             }
             
@@ -178,7 +162,7 @@ class MainManager {
                 tableView.reloadData()
             }
             
-            var i = 0
+            var i = -1
             
             for item in items {
                 net.getStocksOpenCost(tiker: item[0], number: i) { (cost, j) in
@@ -189,11 +173,7 @@ class MainManager {
                     stock.change = cost[1]
                     stock.isCostSet = true
                     
-                    do {
-                        try self.context.save()
-                    } catch let error as NSError {
-                        print(error.localizedDescription)
-                    }
+                    DataManager.save(context: self.context)
                     
                     DispatchQueue.main.async {
                         tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
