@@ -67,7 +67,7 @@ class WebSocketManager {
                     debugPrint("Unknown message")
                 }
                 
-                self.receiveData() { (dataArray) in completion(dataArray) } // рекурсия
+//                self.receiveData() { (dataArray) in completion(dataArray) } // рекурсия
             }
         }
         completion(self.dataArray) // отправляем в комплишн то что насобирали в нашу модель

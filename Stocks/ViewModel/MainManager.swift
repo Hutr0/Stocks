@@ -35,7 +35,7 @@ class MainManager {
                 getNilStocks(tableView: tableView)
             }
             
-            updateStocks(tableView: tableView)
+            setTimerForStocksUpdating(tableView: tableView)
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -113,26 +113,28 @@ class MainManager {
     
     // MARK: - Load Data
     
-    private func updateStocks(tableView: UITableView) {
+    private func setTimerForStocksUpdating(tableView: UITableView) {
         
-        WebSocketManager.shared.receiveData { (dataArray) in
-            
-            guard let dataArray = dataArray else { return }
-            
-            for stock in self.stocks {
-                for data in dataArray {
-                    if stock.tiker == data.s {
-                        if stock.isOpenCostSet == true {
-                            let percent = data.p - stock.openCost
-                            stock.change = percent
-                            stock.cost = data.p
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+            WebSocketManager.shared.receiveData { (dataArray) in
+                
+                guard let dataArray = dataArray else { return }
+                
+                for stock in self.stocks {
+                    for data in dataArray {
+                        if stock.tiker == data.s {
+                            if stock.isOpenCostSet == true {
+                                let percent = data.p - stock.openCost
+                                stock.change = percent
+                                stock.cost = data.p
+                            }
                         }
                     }
                 }
-            }
-            
-            DispatchQueue.main.async {
-                tableView.reloadData()
+                
+                DispatchQueue.main.async {
+                    tableView.reloadData()
+                }
             }
         }
     }
@@ -145,6 +147,7 @@ class MainManager {
             
             var overlap = false
             
+            var i = 0
             for item in items {
                 for stock in self.stocks {
                     if item[0] == stock.tiker {
@@ -170,7 +173,7 @@ class MainManager {
                         tableView.reloadData()
                     }
                     
-                    net.getStocksOpenCost(tiker: item[0]) { (cost, j) in
+                    net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
                         
                         let stock = self.stocks[j]
                         
@@ -185,6 +188,8 @@ class MainManager {
                         }
                     }
                 }
+                
+                i += 1
                 
                 WebSocketManager.shared.subscribe(symbol: item[0])
                 

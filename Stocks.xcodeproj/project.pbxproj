@@ -100,8 +100,8 @@
 			children = (
 				E000A51725FD3C1E002FE220 /* MainManager.swift */,
 				E065E75A25FBA83C00E0E11E /* NetworkManager.swift */,
-				E000A52225FD709F002FE220 /* DataManger.swift */,
 				E000A52B25FF52E8002FE220 /* WebSocketManager.swift */,
+				E000A52225FD709F002FE220 /* DataManger.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
