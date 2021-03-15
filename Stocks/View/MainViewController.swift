@@ -17,6 +17,17 @@ class MainViewController: UITableViewController {
         
         manager.loadStocks(tableView: tableView)
         
+//        WebSocketManager.shared.connectToWebSocket()
+//        WebSocketManager.shared.subscribeBtcUsd()
+//        WebSocketManager.shared.receiveData { [weak self] (data) in
+//            guard let self = self else { return }
+//            guard let data = data else { return }
+//            print(data)
+//            self.manager.stocks = []
+//            self.manager.isNilStocks = true
+//            self.tableView.reloadData()
+//        }
+        
 //        let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
 //        do {
 //            manager.stocks = try manager.context.fetch(fetchRequest)

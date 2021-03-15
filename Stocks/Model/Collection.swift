@@ -9,9 +9,12 @@ import Foundation
 
 struct Collection: Decodable {
     
-    let start: Int
-    let count: Int
-    let total: Int
-    let description: String
     let quotes: [CollectionQuote]
+}
+
+struct CollectionQuote: Decodable {
+    
+    let currency: String
+    let shortName: String
+    let symbol: String
 }

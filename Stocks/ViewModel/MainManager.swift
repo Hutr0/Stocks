@@ -26,16 +26,14 @@ class MainManager {
             isNilStocks = fetchedStokes == [] ? true : false
             
             if !isNilStocks {
-                print("123")
                 getNotNilStocks(fetchedStokes: fetchedStokes, tableView: tableView)
                 var i = 0
                 for stock in self.stocks {
                     guard let tiker = stock.tiker else { return }
-                    updateStocksCost(tableView: tableView, tiker: tiker, number: i)
+                    //updateStocksCost(tableView: tableView, tiker: tiker, number: i)
                     i += 1
                 }
             } else {
-                print("234")
                 getNilStocks(tableView: tableView)
             }
         } catch let error as NSError {
@@ -113,12 +111,12 @@ class MainManager {
         }
     }
     
-    // MARK: - Private methods
+    // MARK: - Load Data
     
     private func updateStocksCost(tableView: UITableView, tiker: String, number: Int) {
         let net = NetworkManager()
         
-        net.getStocksOpenCost(tiker: tiker, number: number) { (cost, j) in
+        net.getStocksOpenCost(tiker: tiker, currentNumber: number) { (cost, j) in
             
             let stock = self.stocks[j]
             
@@ -169,7 +167,7 @@ class MainManager {
                         tableView.reloadData()
                     }
                     
-                    net.getStocksOpenCost(tiker: item[0], number: 0) { (cost, j) in
+                    net.getStocksOpenCost(tiker: item[0], currentNumber: 0) { (cost, j) in
                         
                         let stock = self.stocks[j]
                         
@@ -191,6 +189,7 @@ class MainManager {
     
     private func getNilStocks(tableView: UITableView) {
         let net = NetworkManager()
+        
         guard let entity = NSEntityDescription.entity(forEntityName: "Stock", in: self.context) else { return }
         
         net.getStocksName { (items) in
@@ -214,10 +213,10 @@ class MainManager {
             }
             
             var i = 0
-            
             for item in items {
-                net.getStocksOpenCost(tiker: item[0], number: i) { (cost, j) in
+                net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
                     
+                    // Проверка на ошибку вывода информации с запроса
                     if j == -1 {
                         i -= 1
                         return
@@ -232,12 +231,33 @@ class MainManager {
                     DataManager.save(context: self.context)
                     
                     DispatchQueue.main.async {
-                        //tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
-                        tableView.reloadData()
+                        tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
+                        //tableView.reloadData()
                     }
                 }
                 i += 1
             }
+        }
+    }
+}
+
+extension Decodable {
+    static func decode(with decoder: JSONDecoder = JSONDecoder(), from data: Data) throws -> Self? {
+        do {
+            let newData = try decoder.decode(Self.self, from: data)
+            return newData
+        } catch {
+            print("Decodable model error:", error.localizedDescription)
+            return nil
+        }
+    }
+    static func decodeArray(with decoder: JSONDecoder = JSONDecoder(), from data: Data) throws -> [Self]{
+        do {
+            let newData = try decoder.decode([Self].self, from: data)
+            return newData
+        } catch {
+            print("Decodable model error:", error.localizedDescription)
+            return []
         }
     }
 }
