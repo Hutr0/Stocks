@@ -120,20 +120,28 @@ class MainManager {
                 
                 guard let dataArray = dataArray else { return }
                 
+                var sequence: [IndexPath] = []
+                var i = 0
                 for stock in self.stocks {
                     for data in dataArray {
                         if stock.tiker == data.s {
                             if stock.isOpenCostSet == true {
                                 let percent = data.p - stock.openCost
-                                stock.change = percent
-                                stock.cost = data.p
+                                if stock.change != percent && stock.cost != data.p {
+                                    stock.change = percent
+                                    stock.cost = data.p
+                                    sequence.append(IndexPath(row: i, section: 0))
+                                }
                             }
                         }
                     }
+                    i += 1
                 }
                 
-                DispatchQueue.main.async {
-                    tableView.reloadData()
+                if sequence != [] {                
+                    DispatchQueue.main.async {
+                        tableView.reloadRows(at:sequence, with: .automatic)
+                    }
                 }
             }
         }
