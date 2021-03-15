@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class DataManager {
+class CoreDataManager {
     
     static func save(context: NSManagedObjectContext) {
         do {

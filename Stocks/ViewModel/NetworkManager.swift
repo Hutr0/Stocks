@@ -47,7 +47,7 @@ class NetworkManager {
         }.resume()
     }
     
-    func getStocksOpenCost(tiker: String, currentNumber: Int, completion: @escaping ([Float?], _ currentNumber: Int) -> ()) {
+    func getStocksOpenCost(tiker: String, currentNumber: Int, completion: @escaping ([Float], _ currentNumber: Int) -> ()) {
         
         guard let url = URL(string: "https://finnhub.io/api/v1/quote?symbol=\(tiker)") else { print("URL Error in getStocksOpenCost()"); return }
         
@@ -64,7 +64,7 @@ class NetworkManager {
             
             if error != nil {
                 print(error!.localizedDescription)
-                completion([nil], -1)
+                completion([0], -1)
                 return
             }
             

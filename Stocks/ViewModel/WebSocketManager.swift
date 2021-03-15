@@ -52,12 +52,10 @@ class WebSocketManager {
             case .success(let message):
                 switch message {
                 case .string(let text):
-//                    print(text)
                     let data: Data? = text.data(using: .utf8)
                     let srvData = try? WebSocketModel.decode(from: data ?? Data())
                     
                     for singleData in srvData?.data ?? [] {
-//                        print(singleData)
                         self.dataArray.append(WebSocket(s: singleData.s, p: singleData.p, t: singleData.t, v: singleData.v, c: singleData.c))
                     }
                 case .data(let data):

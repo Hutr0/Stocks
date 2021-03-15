@@ -50,7 +50,7 @@ class MainManager {
             stock.isFavourite.toggle()
             self.stocks[indexPath.row] = stock
             
-            DataManager.save(context: self.context)
+            CoreDataManager.save(context: self.context)
             
             completion(true)
         }
@@ -142,6 +142,7 @@ class MainManager {
                     DispatchQueue.main.async {
                         tableView.reloadRows(at:sequence, with: .automatic)
                     }
+                    CoreDataManager.save(context: self.context)
                 }
             }
         }
@@ -152,10 +153,9 @@ class MainManager {
         guard let entity = NSEntityDescription.entity(forEntityName: "Stock", in: self.context) else { return }
         
         net.getStocksName { (items) in
-            
             var overlap = false
-            
             var i = 0
+            
             for item in items {
                 for stock in self.stocks {
                     if item[0] == stock.tiker {
@@ -175,8 +175,6 @@ class MainManager {
                     
                     self.stocks.append(stockObject)
                     
-//                    DataManager.save(context: self.context)
-                    
                     DispatchQueue.main.async {
                         tableView.reloadData()
                     }
@@ -185,11 +183,9 @@ class MainManager {
                         
                         let stock = self.stocks[j]
                         
-                        stock.openCost = cost[0]!
-                        stock.cost = cost[1]!
+                        stock.openCost = cost[0]
+                        stock.cost = cost[1]
                         stock.isOpenCostSet = true
-
-//                        DataManager.save(context: self.context)
                         
                         DispatchQueue.main.async {
                             tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
@@ -207,26 +203,25 @@ class MainManager {
                     
                     let stock = self.stocks[j]
                     
-                    stock.openCost = cost[0]!
-                    stock.cost = cost[1]!
-                    stock.change = cost[1]! - cost[0]!
-                    stock.isOpenCostSet = true
+                    let open = cost[0]
+                    let current = cost[1]
                     
-                    // DataManager.save(context: self.context)
+                    stock.openCost = open
+                    stock.cost = current
+                    stock.change = current - open
+                    stock.isOpenCostSet = true
                     
                     DispatchQueue.main.async {
                         tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
                     }
                 }
                 
-                
-                
-                i += 1
-                
                 WebSocketManager.shared.subscribe(symbol: item[0])
                 
                 overlap = false
+                i += 1
             }
+            CoreDataManager.save(context: self.context)
         }
     }
     
@@ -245,8 +240,6 @@ class MainManager {
                 stockObject.isOpenCostSet = false
                 
                 self.stocks.append(stockObject)
-                
-//                DataManager.save(context: self.context)
             }
             
             self.isNilStocks = false
@@ -270,12 +263,13 @@ class MainManager {
                     
                     let stock = self.stocks[j]
                     
-                    stock.openCost = cost[0]!
-                    stock.cost = cost[1]!
-                    stock.change = cost[1]! - cost[0]!
-                    stock.isOpenCostSet = true
+                    let open = cost[0]
+                    let current = cost[1]
                     
-//                    DataManager.save(context: self.context)
+                    stock.openCost = open
+                    stock.cost = current
+                    stock.change = current - open
+                    stock.isOpenCostSet = true
                     
                     DispatchQueue.main.async {
                         tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
@@ -284,6 +278,7 @@ class MainManager {
                 i += 1
             }
         }
+        CoreDataManager.save(context: self.context)
     }
 }
 
