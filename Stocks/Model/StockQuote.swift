@@ -10,4 +10,5 @@ import Foundation
 struct StockQuote: Decodable {
     
     let o: Float // open
+    let c: Float // current
 }

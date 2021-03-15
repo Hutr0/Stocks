@@ -15,14 +15,6 @@ class MainManager {
     var stocks = [Stock]()
     var isNilStocks: Bool = false
     
-    private lazy var dateFormatter: DateFormatter = {
-        let df = DateFormatter()
-        df.dateStyle = .short
-        df.locale = Locale(identifier: "ru_RU")
-        df.timeStyle = .none
-        return df
-    }()
-    
     func startLoadingStocks(tableView: UITableView) {
         
         WebSocketManager.shared.connectToWebSocket()
@@ -123,7 +115,7 @@ class MainManager {
     
     private func setTimerForStocksUpdating(tableView: UITableView) {
         
-        Timer.scheduledTimer(withTimeInterval: 7, repeats: true) { _ in
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
             WebSocketManager.shared.receiveData { (dataArray) in
                 
                 guard let dataArray = dataArray else { return }
@@ -162,15 +154,11 @@ class MainManager {
         net.getStocksName { (items) in
             
             var overlap = false
-            var nowDate = false
             
             var i = 0
             for item in items {
                 for stock in self.stocks {
                     if item[0] == stock.tiker {
-                        if self.dateFormatter.string(from: Date()) == stock.date {
-                            nowDate = true
-                        }
                         overlap = true
                         break
                     }
@@ -197,10 +185,9 @@ class MainManager {
                         
                         let stock = self.stocks[j]
                         
-                        stock.openCost = cost!
-                        stock.cost = cost!
+                        stock.openCost = cost[0]!
+                        stock.cost = cost[1]!
                         stock.isOpenCostSet = true
-                        stock.date = self.dateFormatter.string(from: Date())
 
 //                        DataManager.save(context: self.context)
                         
@@ -208,40 +195,37 @@ class MainManager {
                             tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
                         }
                     }
-                    
-                    nowDate = true
                 }
                 
-                if nowDate == false {
-                    net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
-                        
-                        // Проверка на ошибку вывода информации с запроса
-                        if j == -1 {
-                            i -= 1
-                            return
-                        }
-                        
-                        let stock = self.stocks[j]
-                        
-                        stock.openCost = cost!
-                        stock.cost = cost!
-                        stock.isOpenCostSet = true
-                        stock.date = self.dateFormatter.string(from: Date())
-                        
-    //                    DataManager.save(context: self.context)
-                        
-                        DispatchQueue.main.async {
-                            tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
-                        }
+                net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
+                    
+                    // Проверка на ошибку вывода информации с запроса
+                    if j == -1 {
+                        i -= 1
+                        return
+                    }
+                    
+                    let stock = self.stocks[j]
+                    
+                    stock.openCost = cost[0]!
+                    stock.cost = cost[1]!
+                    stock.change = cost[1]! - cost[0]!
+                    stock.isOpenCostSet = true
+                    
+                    // DataManager.save(context: self.context)
+                    
+                    DispatchQueue.main.async {
+                        tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
                     }
                 }
+                
+                
                 
                 i += 1
                 
                 WebSocketManager.shared.subscribe(symbol: item[0])
                 
                 overlap = false
-                nowDate = false
             }
         }
     }
@@ -286,10 +270,10 @@ class MainManager {
                     
                     let stock = self.stocks[j]
                     
-                    stock.openCost = cost!
-                    stock.cost = cost!
+                    stock.openCost = cost[0]!
+                    stock.cost = cost[1]!
+                    stock.change = cost[1]! - cost[0]!
                     stock.isOpenCostSet = true
-                    stock.date = self.dateFormatter.string(from: Date())
                     
 //                    DataManager.save(context: self.context)
                     

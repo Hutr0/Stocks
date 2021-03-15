@@ -47,7 +47,7 @@ class NetworkManager {
         }.resume()
     }
     
-    func getStocksOpenCost(tiker: String, currentNumber: Int, completion: @escaping (Float?, _ currentNumber: Int) -> ()) {
+    func getStocksOpenCost(tiker: String, currentNumber: Int, completion: @escaping ([Float?], _ currentNumber: Int) -> ()) {
         
         guard let url = URL(string: "https://finnhub.io/api/v1/quote?symbol=\(tiker)") else { print("URL Error in getStocksOpenCost()"); return }
         
@@ -64,7 +64,7 @@ class NetworkManager {
             
             if error != nil {
                 print(error!.localizedDescription)
-                completion(nil, -1)
+                completion([nil], -1)
                 return
             }
             
@@ -75,8 +75,9 @@ class NetworkManager {
                 let cost = try decoder.decode(StockQuote.self, from: data)
                 
                 let open = cost.o
+                let current = cost.c
                 
-                completion(open, currentNumber)
+                completion([open, current], currentNumber)
             } catch let error {
                 print("Decoder error in getStocksOpenCost(): \(error.localizedDescription)")
             }
