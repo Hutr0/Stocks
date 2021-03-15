@@ -29,7 +29,8 @@ class MainManager {
             isNilStocks = fetchedStokes == [] ? true : false
             
             if !isNilStocks {
-                getNotNilStocks(fetchedStokes: fetchedStokes, tableView: tableView)
+                self.stocks = fetchedStokes
+                getNotNilStocks(tableView: tableView)
             } else {
                 getNilStocks(tableView: tableView)
             }
@@ -121,10 +122,11 @@ class MainManager {
             for stock in self.stocks {
                 for data in dataArray {
                     if stock.tiker == data.s {
-                        let percent = data.p - stock.openCost
-                        stock.change = percent
-                        stock.cost = data.p
-                        stock.isOpenCostSet = true
+                        if stock.isOpenCostSet == true {
+                            let percent = data.p - stock.openCost
+                            stock.change = percent
+                            stock.cost = data.p
+                        }
                     }
                 }
             }
@@ -135,11 +137,9 @@ class MainManager {
         }
     }
     
-    private func getNotNilStocks(fetchedStokes: [Stock], tableView: UITableView) {
+    private func getNotNilStocks(tableView: UITableView) {
         let net = NetworkManager()
         guard let entity = NSEntityDescription.entity(forEntityName: "Stock", in: self.context) else { return }
-        
-        self.stocks = fetchedStokes
         
         net.getStocksName { (items) in
             
@@ -185,6 +185,9 @@ class MainManager {
                         }
                     }
                 }
+                
+                WebSocketManager.shared.subscribe(symbol: item[0])
+                
                 overlap = false
             }
         }
