@@ -17,13 +17,4 @@ class DataManager {
             print(error.localizedDescription)
         }
     }
-    
-    static func save(context: NSManagedObjectContext, withCompletion completion: () -> ()) {
-        do {
-            try context.save()
-            completion()
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        }
-    }
 }

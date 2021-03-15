@@ -12,18 +12,18 @@ class WebSocketManager {
     public static let shared = WebSocketManager() // создаем Синглтон
     private init(){}
     
-    private var dataArray: [StockQuote] = []
+    private var dataArray: [WebSocket] = []
     
     let webSocketTask = URLSession(configuration: .default).webSocketTask(with: URL(string: "wss://ws.finnhub.io?token=c16k5t748v6ppg7etbig")!)
     
     //функция вызова подключения
     public func connectToWebSocket() {
         webSocketTask.resume()
-        self.receiveData() { _ in }
+//        self.receiveData() { _ in }
     }
     
     //функция подписки на что либо
-    public func subscribeBtcUsd(symbol: String) {
+    public func subscribe(symbol: String) {
         let message = URLSessionWebSocketTask.Message.string("{\"type\":\"subscribe\",\"symbol\":\"\(symbol)\"}")
         webSocketTask.send(message) { error in
             if let error = error {
@@ -33,7 +33,7 @@ class WebSocketManager {
     }
     
     //функция отписки от чего либо
-    public func unSubscribeBtcUsd(symbol: String) {
+    public func unSubscribe(symbol: String) {
         let message = URLSessionWebSocketTask.Message.string("{\"type\":\"subscribe\",\"symbol\":\"\(symbol)\"}")
         webSocketTask.send(message) { error in
             if let error = error {
@@ -43,7 +43,8 @@ class WebSocketManager {
     }
     
     //функция получения данных, с эскейпингом чтобы получить данные наружу
-    func receiveData(completion: @escaping ([StockQuote]?) -> Void) {
+    func receiveData(completion: @escaping ([WebSocket]?) -> Void) {
+        
         webSocketTask.receive { result in
             switch result {
             case .failure(let error):
@@ -53,12 +54,12 @@ class WebSocketManager {
                 case .string(let text):
                     print(text)
                     let data: Data? = text.data(using: .utf8)
-                    let singleData = try? StockQuote.decode(from: data ?? Data())
-//                    for singleData in srvData ?? [] {
-                    if singleData != nil {
-                        self.dataArray.append(StockQuote(c: singleData!.c, h: singleData!.h, l: singleData!.l, o: singleData!.o, pc: singleData!.pc, t: singleData!.t))
+                    let srvData = try? WebSocketModel.decode(from: data ?? Data())
+                    
+                    for singleData in srvData?.data ?? [] {
+                        print(singleData)
+                        self.dataArray.append(WebSocket(s: singleData.s, p: singleData.p, t: singleData.t, v: singleData.v, c: singleData.c))
                     }
-//                    }
                 case .data(let data):
                     // В вашем варианте данные могут приходить сразу сюда
                     print("Received data: \(data)")
@@ -66,7 +67,7 @@ class WebSocketManager {
                     debugPrint("Unknown message")
                 }
                 
-                self.receiveData() {_ in } // рекурсия
+                self.receiveData() { (dataArray) in completion(dataArray) } // рекурсия
             }
         }
         completion(self.dataArray) // отправляем в комплишн то что насобирали в нашу модель

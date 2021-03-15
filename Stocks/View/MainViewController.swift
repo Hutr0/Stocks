@@ -15,7 +15,7 @@ class MainViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        manager.loadStocks(tableView: tableView)
+        manager.startLoadingStocks(tableView: tableView)
         
 //        WebSocketManager.shared.connectToWebSocket()
 //        WebSocketManager.shared.subscribeBtcUsd()

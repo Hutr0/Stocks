@@ -11,10 +11,13 @@ import CoreData
 class MainManager {
     
     var context: NSManagedObjectContext!
+    
     var stocks = [Stock]()
     var isNilStocks: Bool = false
     
-    func loadStocks(tableView: UITableView) {
+    func startLoadingStocks(tableView: UITableView) {
+        
+        WebSocketManager.shared.connectToWebSocket()
         
         let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
         // let sortDescriptor = NSSortDescriptor(key: "title", ascending: false) // Сортировка
@@ -27,15 +30,11 @@ class MainManager {
             
             if !isNilStocks {
                 getNotNilStocks(fetchedStokes: fetchedStokes, tableView: tableView)
-                var i = 0
-                for stock in self.stocks {
-                    guard let tiker = stock.tiker else { return }
-                    //updateStocksCost(tableView: tableView, tiker: tiker, number: i)
-                    i += 1
-                }
             } else {
                 getNilStocks(tableView: tableView)
             }
+            
+            updateStocks(tableView: tableView)
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -74,7 +73,7 @@ class MainManager {
             cell.ticker.text = stock.tiker
             cell.name.text = stock.name
             
-            guard stock.isCostSet else {
+            guard stock.isOpenCostSet else {
                 
                 cell.currency.text = ""
                 cell.cost.text = ""
@@ -96,7 +95,7 @@ class MainManager {
                 cell.currency.text = "?"
             }
             
-            cell.cost.text = String(stock.cost)
+            cell.cost.text = String(format: "%.2f", stock.cost)
             cell.change.text = String(format: "%.2f", stock.change) + "%"
             
             return cell
@@ -113,21 +112,25 @@ class MainManager {
     
     // MARK: - Load Data
     
-    private func updateStocksCost(tableView: UITableView, tiker: String, number: Int) {
-        let net = NetworkManager()
+    private func updateStocks(tableView: UITableView) {
         
-        net.getStocksOpenCost(tiker: tiker, currentNumber: number) { (cost, j) in
+        WebSocketManager.shared.receiveData { (dataArray) in
             
-            let stock = self.stocks[j]
+            guard let dataArray = dataArray else { return }
             
-            stock.cost = cost[0]
-            stock.change = cost[1]
-            stock.isCostSet = true
-            
-            DataManager.save(context: self.context)
+            for stock in self.stocks {
+                for data in dataArray {
+                    if stock.tiker == data.s {
+                        let percent = data.p - stock.openCost
+                        stock.change = percent
+                        stock.cost = data.p
+                        stock.isOpenCostSet = true
+                    }
+                }
+            }
             
             DispatchQueue.main.async {
-                tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
+                tableView.reloadData()
             }
         }
     }
@@ -157,25 +160,25 @@ class MainManager {
                     stockObject.tiker = item[0]
                     stockObject.name = item[1]
                     stockObject.currency = item[2]
-                    stockObject.isCostSet = false
+                    stockObject.isOpenCostSet = false
                     
-                    DataManager.save(context: self.context) {
-                        self.stocks.append(stockObject)
-                    }
+                    self.stocks.append(stockObject)
+                    
+//                    DataManager.save(context: self.context)
                     
                     DispatchQueue.main.async {
                         tableView.reloadData()
                     }
                     
-                    net.getStocksOpenCost(tiker: item[0], currentNumber: 0) { (cost, j) in
+                    net.getStocksOpenCost(tiker: item[0]) { (cost, j) in
                         
                         let stock = self.stocks[j]
                         
-                        stock.cost = cost[0]
-                        stock.change = cost[1]
-                        stock.isCostSet = true
+                        stock.openCost = cost!
+                        stock.cost = cost!
+                        stock.isOpenCostSet = true
                         
-                        DataManager.save(context: self.context)
+//                        DataManager.save(context: self.context)
                         
                         DispatchQueue.main.async {
                             tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
@@ -199,11 +202,11 @@ class MainManager {
                 stockObject.tiker = item[0]
                 stockObject.name = item[1]
                 stockObject.currency = item[2]
-                stockObject.isCostSet = false
+                stockObject.isOpenCostSet = false
                 
-                DataManager.save(context: self.context) {
-                    self.stocks.append(stockObject)
-                }
+                self.stocks.append(stockObject)
+                
+//                DataManager.save(context: self.context)
             }
             
             self.isNilStocks = false
@@ -214,6 +217,9 @@ class MainManager {
             
             var i = 0
             for item in items {
+                
+                WebSocketManager.shared.subscribe(symbol: item[0])
+                
                 net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
                     
                     // Проверка на ошибку вывода информации с запроса
@@ -224,15 +230,14 @@ class MainManager {
                     
                     let stock = self.stocks[j]
                     
-                    stock.cost = cost[0]
-                    stock.change = cost[1]
-                    stock.isCostSet = true
+                    stock.openCost = cost!
+                    stock.cost = cost!
+                    stock.isOpenCostSet = true
                     
-                    DataManager.save(context: self.context)
+//                    DataManager.save(context: self.context)
                     
                     DispatchQueue.main.async {
                         tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
-                        //tableView.reloadData()
                     }
                 }
                 i += 1
@@ -251,7 +256,7 @@ extension Decodable {
             return nil
         }
     }
-    static func decodeArray(with decoder: JSONDecoder = JSONDecoder(), from data: Data) throws -> [Self]{
+    static func decodeArray(with decoder: JSONDecoder = JSONDecoder(), from data: Data) throws -> [Self] {
         do {
             let newData = try decoder.decode([Self].self, from: data)
             return newData
