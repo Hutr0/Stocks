@@ -4,6 +4,7 @@
         <attribute name="change" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="cost" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="currency" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="String"/>
         <attribute name="isFavourite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isOpenCostSet" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -11,6 +12,6 @@
         <attribute name="tiker" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Stock" positionX="-54" positionY="-9" width="128" height="149"/>
+        <element name="Stock" positionX="-54" positionY="-9" width="128" height="164"/>
     </elements>
 </model>
