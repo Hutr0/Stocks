@@ -64,7 +64,7 @@ class NetworkManager {
             
             if error != nil {
                 print(error!.localizedDescription)
-                completion([0], -1)
+                completion([], -1)
                 return
             }
             
@@ -80,6 +80,7 @@ class NetworkManager {
                 completion([open, current], currentNumber)
             } catch let error {
                 print("Decoder error in getStocksOpenCost(): \(error.localizedDescription)")
+                completion([], -1)
             }
         }.resume()
     }

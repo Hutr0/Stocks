@@ -144,6 +144,12 @@ class MainManager {
                         
                         net.getStocksOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
                             
+                            // Проверка на ошибку вывода информации с запроса
+                            if j == -1 {
+                                i -= 1
+                                return
+                            }
+                            
                             let open = cost[0]
                             let current = cost[1]
                             let percent = current - open
@@ -206,6 +212,12 @@ class MainManager {
                     
                     net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
                         
+                        // Проверка на ошибку вывода информации с запроса
+                        if j == -1 {
+                            i -= 1
+                            return
+                        }
+                        
                         let stock = self.stocks[j]
                         
                         stock.openCost = cost[0]
@@ -218,14 +230,11 @@ class MainManager {
                     }
                 }
                 
-                
                 WebSocketManager.shared.subscribe(symbol: item[0])
                 
                 overlap = false
                 i += 1
             }
-            
-            CoreDataManager.save(context: self.context)
         }
         
         var i = 0
@@ -236,11 +245,10 @@ class MainManager {
                 
                 // Проверка на ошибку вывода информации с запроса
                 if j == -1 {
+                    stock.isOpenCostSet = false
                     i -= 1
                     return
                 }
-                
-                let stock = self.stocks[j]
                 
                 let open = cost[0]
                 let current = cost[1]
@@ -254,8 +262,10 @@ class MainManager {
                     tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
                 }
             }
+            i += 1
         }
-        i += 1
+        
+        CoreDataManager.save(context: self.context)
     }
     
     private func getNilStocks(tableView: UITableView) {
