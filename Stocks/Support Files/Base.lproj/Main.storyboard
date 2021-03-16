@@ -30,7 +30,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ge-HX-qG9">
-                                            <rect key="frame" x="20" y="56.666666666666664" width="44" height="21.666666666666664"/>
+                                            <rect key="frame" x="20" y="56.666666666666664" width="284" height="21.666666666666664"/>
                                             <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="18"/>
                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                             <nil key="highlightedColor"/>
@@ -53,6 +53,9 @@
                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Ecv-Qm-j2u">
+                                            <rect key="frame" x="320" y="40" width="20" height="20"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="y9Q-zd-W10" firstAttribute="leading" secondItem="e2S-U0-yJV" secondAttribute="trailing" constant="8" id="Cdh-ND-ePE"/>
@@ -60,17 +63,21 @@
                                         <constraint firstItem="2ge-HX-qG9" firstAttribute="top" secondItem="j1q-pQ-JdF" secondAttribute="bottom" constant="8" id="HOo-2S-GCY"/>
                                         <constraint firstItem="j1q-pQ-JdF" firstAttribute="leading" secondItem="B56-Af-S8q" secondAttribute="leadingMargin" id="Hcz-Ku-atI"/>
                                         <constraint firstAttribute="trailing" secondItem="y9Q-zd-W10" secondAttribute="trailing" constant="20" symbolic="YES" id="M2g-Nm-yNM"/>
+                                        <constraint firstItem="Ecv-Qm-j2u" firstAttribute="leading" secondItem="2ge-HX-qG9" secondAttribute="trailing" constant="16" id="MbC-6s-IFN"/>
                                         <constraint firstItem="2ge-HX-qG9" firstAttribute="leading" secondItem="B56-Af-S8q" secondAttribute="leadingMargin" id="QkU-eb-Kz7"/>
+                                        <constraint firstItem="Ecv-Qm-j2u" firstAttribute="centerY" secondItem="B56-Af-S8q" secondAttribute="centerY" id="UQf-2m-a3v"/>
                                         <constraint firstItem="y9Q-zd-W10" firstAttribute="centerY" secondItem="e2S-U0-yJV" secondAttribute="centerY" id="ZMb-an-RhV"/>
+                                        <constraint firstAttribute="trailing" secondItem="Ecv-Qm-j2u" secondAttribute="trailing" constant="50" id="gst-ni-eDK"/>
                                         <constraint firstItem="j1q-pQ-JdF" firstAttribute="top" secondItem="B56-Af-S8q" secondAttribute="topMargin" constant="4" id="lNN-LB-ziA"/>
                                         <constraint firstItem="e2S-U0-yJV" firstAttribute="top" secondItem="B56-Af-S8q" secondAttribute="topMargin" constant="4" id="pCC-si-p11"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2ge-HX-qG9" secondAttribute="bottom" constant="4" id="u1e-Y8-T0O"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="vXC-z4-b7j" secondAttribute="trailing" id="u6b-RJ-fL7"/>
-                                        <constraint firstItem="vXC-z4-b7j" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2ge-HX-qG9" secondAttribute="trailing" constant="8" id="ucV-Ir-cGF"/>
-                                        <constraint firstItem="e2S-U0-yJV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="j1q-pQ-JdF" secondAttribute="trailing" constant="100" id="uqX-fe-OiH"/>
+                                        <constraint firstItem="vXC-z4-b7j" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2ge-HX-qG9" secondAttribute="trailing" constant="16" id="ucV-Ir-cGF"/>
+                                        <constraint firstItem="e2S-U0-yJV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="j1q-pQ-JdF" secondAttribute="trailing" constant="50" id="uqX-fe-OiH"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="activityIndicator" destination="Ecv-Qm-j2u" id="FTM-6R-Lcv"/>
                                     <outlet property="change" destination="vXC-z4-b7j" id="4Vf-U7-8ZU"/>
                                     <outlet property="cost" destination="e2S-U0-yJV" id="5zM-xF-ExF"/>
                                     <outlet property="currency" destination="y9Q-zd-W10" id="Izh-uA-3S7"/>

@@ -83,6 +83,8 @@ class MainManager {
                 return cell
             }
             
+            cell.activityIndicator.stopAnimating()
+            
             if String(stock.change).hasPrefix("-") {
                 cell.change.textColor = .red
             } else {
@@ -135,6 +137,29 @@ class MainManager {
                             }
                         }
                     }
+                    
+                    if stock.isOpenCostSet == false {
+                        guard let tiker = stock.tiker else { print("Error: tiker = nil"); return }
+                        let net = NetworkManager()
+                        
+                        net.getStocksOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
+                            
+                            let open = cost[0]
+                            let current = cost[1]
+                            let percent = current - open
+                            
+                            stock.openCost = open
+                            stock.cost = current
+                            stock.change = percent
+                            stock.isOpenCostSet = true
+                            
+                            DispatchQueue.main.async {
+                                tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
+                            }
+                        }
+                        
+                    }
+                    
                     i += 1
                 }
                 
@@ -193,36 +218,44 @@ class MainManager {
                     }
                 }
                 
-                net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
-                    
-                    // Проверка на ошибку вывода информации с запроса
-                    if j == -1 {
-                        i -= 1
-                        return
-                    }
-                    
-                    let stock = self.stocks[j]
-                    
-                    let open = cost[0]
-                    let current = cost[1]
-                    
-                    stock.openCost = open
-                    stock.cost = current
-                    stock.change = current - open
-                    stock.isOpenCostSet = true
-                    
-                    DispatchQueue.main.async {
-                        tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
-                    }
-                }
                 
                 WebSocketManager.shared.subscribe(symbol: item[0])
                 
                 overlap = false
                 i += 1
             }
+            
             CoreDataManager.save(context: self.context)
         }
+        
+        var i = 0
+        for stock in stocks {
+            guard let tiker = stock.tiker else { print("Error: tiker = nil"); return }
+            
+            net.getStocksOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
+                
+                // Проверка на ошибку вывода информации с запроса
+                if j == -1 {
+                    i -= 1
+                    return
+                }
+                
+                let stock = self.stocks[j]
+                
+                let open = cost[0]
+                let current = cost[1]
+                
+                stock.openCost = open
+                stock.cost = current
+                stock.change = current - open
+                stock.isOpenCostSet = true
+                
+                DispatchQueue.main.async {
+                    tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
+                }
+            }
+        }
+        i += 1
     }
     
     private func getNilStocks(tableView: UITableView) {

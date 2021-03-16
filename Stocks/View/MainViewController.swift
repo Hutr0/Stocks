@@ -12,21 +12,12 @@ class MainViewController: UITableViewController {
     
     let manager = MainManager()
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         manager.startLoadingStocks(tableView: tableView)
-        
-//        WebSocketManager.shared.connectToWebSocket()
-//        WebSocketManager.shared.subscribeBtcUsd()
-//        WebSocketManager.shared.receiveData { [weak self] (data) in
-//            guard let self = self else { return }
-//            guard let data = data else { return }
-//            print(data)
-//            self.manager.stocks = []
-//            self.manager.isNilStocks = true
-//            self.tableView.reloadData()
-//        }
         
 //        let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
 //        do {
@@ -57,7 +48,10 @@ class MainViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MainCell
-        
+    
+        cell.activityIndicator.isHidden = false
+        cell.activityIndicator.hidesWhenStopped = true
+        cell.activityIndicator.startAnimating()
         cell = manager.getConfiguredCell(indexPath: indexPath, cell: cell)
         
         return cell
