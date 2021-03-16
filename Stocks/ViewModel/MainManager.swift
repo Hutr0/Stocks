@@ -98,8 +98,17 @@ class MainManager {
                 cell.currency.text = "?"
             }
             
-            cell.cost.text = String(format: "%.2f", stock.cost)
-            cell.change.text = String(format: "%.2f", stock.change) + "%"
+            if String(format: "%.2f", stock.cost).hasSuffix("0") {
+                cell.cost.text = String(format: "%.1f", stock.cost)
+            } else {
+                cell.cost.text = String(format: "%.2f", stock.cost)
+            }
+            
+            if String(format: "%.2f", stock.change).hasSuffix("0") {
+                cell.change.text = String(format: "%.1f", stock.change) + "%"
+            } else {
+                cell.change.text = String(format: "%.2f", stock.change) + "%"
+            }
             
             return cell
         } else {
@@ -159,9 +168,7 @@ class MainManager {
                             stock.change = percent
                             stock.isOpenCostSet = true
                             
-                            DispatchQueue.main.async {
-                                tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
-                            }
+                            sequence.append(IndexPath(item: j, section: 0))
                         }
                         
                     }
@@ -210,24 +217,24 @@ class MainManager {
                         tableView.reloadData()
                     }
                     
-                    net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
-                        
-                        // Проверка на ошибку вывода информации с запроса
-                        if j == -1 {
-                            i -= 1
-                            return
-                        }
-                        
-                        let stock = self.stocks[j]
-                        
-                        stock.openCost = cost[0]
-                        stock.cost = cost[1]
-                        stock.isOpenCostSet = true
-                        
-                        DispatchQueue.main.async {
-                            tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
-                        }
-                    }
+//                    net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
+//
+//                        // Проверка на ошибку вывода информации с запроса
+//                        if j == -1 {
+//                            i -= 1
+//                            return
+//                        }
+//
+//                        let stock = self.stocks[j]
+//
+//                        stock.openCost = cost[0]
+//                        stock.cost = cost[1]
+//                        stock.isOpenCostSet = true
+//
+//                        DispatchQueue.main.async {
+//                            tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
+//                        }
+//                    }
                 }
                 
                 WebSocketManager.shared.subscribe(symbol: item[0])
