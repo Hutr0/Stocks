@@ -12,7 +12,7 @@ class MainViewController: UITableViewController {
     
     let manager = MainManager()
     
-    
+    @IBOutlet weak var showFavouriteButton: UIBarButtonItem!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -65,22 +65,32 @@ class MainViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        let favourite = manager.favouriteAction(indexPath)
+        let favourite = manager.favouriteAction(tableView, indexPath, isFavourite: manager.isFavourite)
         
         return UISwipeActionsConfiguration(actions: [favourite])
     }
     
-    @IBAction func removeAllStocks(_ sender: UIBarButtonItem) {
-        let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
-        do {
-            let object = try manager.context.fetch(fetchRequest)
-            for o in object {
-                manager.context.delete(o)
+    @IBAction func showFavouriteStocks(_ sender: UIBarButtonItem) {
+        
+        manager.isFavourite.toggle()
+        
+        if manager.isFavourite {
+            var favouriteStocks = [Stock]()
+            for stock in manager.stocks {
+                if stock.isFavourite {
+                    favouriteStocks.append(stock)
+                }
             }
-            try manager.context.save()
-        } catch let error as NSError {
-            print(error.localizedDescription)
+            manager.stashStocks = manager.stocks
+            manager.stocks = favouriteStocks
+            showFavouriteButton.image = UIImage(systemName: "heart.fill")
+        } else {
+            if let stash = manager.stashStocks {
+                manager.stocks = stash
+                showFavouriteButton.image = UIImage(systemName: "heart")
+            }
         }
+        
         tableView.reloadData()
     }
 }

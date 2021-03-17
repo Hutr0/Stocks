@@ -14,6 +14,8 @@ class MainManager {
     
     var stocks = [Stock]()
     var isNilStocks: Bool = false
+    var stashStocks: [Stock]?
+    var isFavourite = false
     
     func startLoadingStocks(tableView: UITableView) {
         
@@ -41,7 +43,7 @@ class MainManager {
         }
     }
     
-    func favouriteAction(_ indexPath: IndexPath) -> UIContextualAction {
+    func favouriteAction(_ tableView: UITableView, _ indexPath: IndexPath, isFavourite: Bool) -> UIContextualAction {
         
         let stock = stocks[indexPath.row]
         
@@ -51,6 +53,11 @@ class MainManager {
             self.stocks[indexPath.row] = stock
             
             CoreDataManager.save(context: self.context)
+            
+            if isFavourite {
+                self.stocks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .right)
+            }
             
             completion(true)
         }

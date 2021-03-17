@@ -92,12 +92,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Stocks" id="NKr-Sp-ggt">
-                        <barButtonItem key="rightBarButtonItem" title="Remove" id="ROM-wm-VWg">
+                        <barButtonItem key="rightBarButtonItem" image="heart" catalog="system" id="ROM-wm-VWg">
+                            <color key="tintColor" systemColor="systemRedColor"/>
                             <connections>
-                                <action selector="removeAllStocks:" destination="5He-um-LmY" id="2Tf-sn-eFU"/>
+                                <action selector="showFavouriteStocks:" destination="5He-um-LmY" id="2Tf-sn-eFU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="showFavouriteButton" destination="ROM-wm-VWg" id="NdR-sP-SBx"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zoh-AK-F68" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -130,6 +134,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="heart" catalog="system" width="128" height="109"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
@@ -138,6 +143,9 @@
         </systemColor>
         <systemColor name="systemGray2Color">
             <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
