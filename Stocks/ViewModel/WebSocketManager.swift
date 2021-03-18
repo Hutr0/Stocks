@@ -14,7 +14,7 @@ class WebSocketManager {
     
     private var dataArray: [WebSocket] = []
     
-    let webSocketTask = URLSession(configuration: .default).webSocketTask(with: URL(string: "wss://ws.finnhub.io?token=c16k5t748v6ppg7etbig")!)
+    let webSocketTask = URLSession(configuration: .default).webSocketTask(with: URL(string: "wss://ws.finnhub.io?token=c19j00n48v6prmim2b9g")!)
     
     //функция вызова подключения
     public func connectToWebSocket() {
@@ -52,12 +52,12 @@ class WebSocketManager {
             case .success(let message):
                 switch message {
                 case .string(let text):
-                    print(text)
+//                    print(text)
                     let data: Data? = text.data(using: .utf8)
                     let srvData = try? WebSocketModel.decode(from: data ?? Data())
                     
                     for singleData in srvData?.data ?? [] {
-                        print(singleData)
+//                        print(singleData)
                         self.dataArray.append(WebSocket(s: singleData.s, p: singleData.p, t: singleData.t, v: singleData.v, c: singleData.c))
                     }
                 case .data(let data):

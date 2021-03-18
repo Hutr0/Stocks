@@ -52,7 +52,7 @@ class NetworkManager {
         guard let url = URL(string: "https://finnhub.io/api/v1/quote?symbol=\(tiker)") else { print("URL Error in getStocksOpenCost()"); return }
         
         let headers = [
-            "X-Finnhub-Token" : "c16k5t748v6ppg7etbig"
+            "X-Finnhub-Token" : "c19j00n48v6prmim2b9g"
         ]
         
         let request = NSMutableURLRequest(url: url)

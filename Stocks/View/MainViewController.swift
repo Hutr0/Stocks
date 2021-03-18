@@ -12,6 +12,7 @@ class MainViewController: UIViewController {
     
     let manager = MainManager()
     let searchController = UISearchController(searchResultsController: nil)
+    var isSearchButtonClicked = false
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showFavouriteButton: UIBarButtonItem!
@@ -20,11 +21,12 @@ class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        definesPresentationContext = false
+        navigationItem.hidesSearchBarWhenScrolling = true
+        definesPresentationContext = true
         
         manager.startLoadingStocks(tableView: tableView)
     }
@@ -72,13 +74,13 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
                     favouriteStocks.append(stock)
                 }
             }
-            manager.stashStocks = manager.stocks
+            manager.stashForFavouriteStocks = manager.stocks
             manager.stocks = favouriteStocks
             showFavouriteButton.image = UIImage(systemName: "heart.fill")
         } else {
-            if let stash = manager.stashStocks {
+            if let stash = manager.stashForFavouriteStocks {
                 manager.stocks = stash
-                manager.stashStocks = nil
+                manager.stashForFavouriteStocks = nil
                 showFavouriteButton.image = UIImage(systemName: "heart")
             }
         }
@@ -87,34 +89,56 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension MainViewController: UISearchResultsUpdating {
+extension MainViewController: UISearchResultsUpdating, UISearchBarDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text, let stash = manager.stashForSearchStocks else { return }
         
-        if searchController.searchBar.text != ""  {
-            let filteredStocks = manager.stocks.filter { (stock) -> Bool in
-
-                guard let text = searchController.searchBar.text,
-                      let tiker = stock.tiker,
-                      let name = stock.name else { return false }
-
-                if tiker.contains(text) || name.contains(text) {
+        if text != "" {
+            let filteredStocks = stash.filter { (stock) -> Bool in
+                guard let tiker = stock.tiker, let name = stock.name else { print("Error: stock tiker or name not found"); return false }
+                
+                if tiker.lowercased().contains(text.lowercased()) || name.lowercased().contains(text.lowercased()) {
                     return true
                 }
-
+                
                 return false
             }
             
             manager.stocks = filteredStocks
         } else {
-            if let stash = manager.stashStocks {
-                manager.stocks = stash
-                manager.stashStocks = nil
-            } else {
-                manager.stashStocks = manager.stocks
-            }
+            manager.stocks = stash
         }
-        
+
         tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        isSearchButtonClicked = true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        isSearchButtonClicked = false
+//        manager.isSearchBarActive = false
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if !isSearchButtonClicked {
+            manager.stashForSearchStocks = manager.stocks
+        }
+//        manager.isSearchBarActive = true
+        isSearchButtonClicked = false
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if !isSearchButtonClicked {
+            guard let stash = manager.stashForSearchStocks else { print("Error: stash was not found"); return }
+            
+            manager.stocks = stash
+            manager.stashForSearchStocks = nil
+//            manager.isSearchçBarActive = false
+            
+            tableView.reloadData()
+        }
     }
 }

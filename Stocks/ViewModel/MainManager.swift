@@ -13,9 +13,11 @@ class MainManager {
     var context: NSManagedObjectContext!
     
     var stocks = [Stock]()
+    var stashForFavouriteStocks: [Stock]?
+    var stashForSearchStocks: [Stock]?
     var isNilStocks: Bool = false
-    var stashStocks: [Stock]?
     var isFavourite = false
+//    var isSearchBarActive = false
     
     func startLoadingStocks(tableView: UITableView) {
         
@@ -55,6 +57,10 @@ class MainManager {
             CoreDataManager.save(context: self.context)
             
             if isFavourite {
+//                print(self.isSearchBarActive)
+//                if self.isSearchBarActive {
+//                    self.stashForSearchStocks?.remove(at: indexPath.row)
+//                }
                 self.stocks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .right)
             }
