@@ -141,21 +141,19 @@ class MainManager {
     
     private func setTimerForStocksUpdating(tableView: UITableView) {
         
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
             
             WebSocketManager.shared.receiveData { (dataArray) in
                 
                 guard let dataArray = dataArray else { return }
                 
-                var sequence: [IndexPath] = []
+                var sequence = [IndexPath]()
                 var i = 0
                 for stock in self.stocks {
                     for data in dataArray {
                         if stock.tiker == data.s {
                             if stock.isOpenCostSet == true {
-//                                print("\(stock.cost) &  \(data.p)")
                                 if String(format: "%.2f", stock.cost) != String(format: "%.2f", data.p) {
-//                                    print("1")
                                     let percent = data.p - stock.openCost
                                     stock.change = percent
                                     stock.cost = data.p
@@ -188,20 +186,17 @@ class MainManager {
                             
                             sequence.append(IndexPath(item: j, section: 0))
                         }
-                        
                     }
                     
                     i += 1
                 }
                 
-                if sequence != [] {                
+                if sequence != [] {
                     DispatchQueue.main.async {
                         tableView.reloadRows(at:sequence, with: .automatic)
                     }
                     CoreDataManager.save(context: self.context)
                 }
-                
-                sequence = []
             }
         }
     }
@@ -236,25 +231,6 @@ class MainManager {
                     DispatchQueue.main.async {
                         tableView.reloadData()
                     }
-                    
-//                    net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
-//
-//                        // Проверка на ошибку вывода информации с запроса
-//                        if j == -1 {
-//                            i -= 1
-//                            return
-//                        }
-//
-//                        let stock = self.stocks[j]
-//
-//                        stock.openCost = cost[0]
-//                        stock.cost = cost[1]
-//                        stock.isOpenCostSet = true
-//
-//                        DispatchQueue.main.async {
-//                            tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
-//                        }
-//                    }
                 }
                 
                 WebSocketManager.shared.subscribe(symbol: item[0])
