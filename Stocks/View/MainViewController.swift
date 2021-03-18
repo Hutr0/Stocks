@@ -11,11 +11,20 @@ import CoreData
 class MainViewController: UITableViewController {
     
     let manager = MainManager()
+    let searchController = UISearchController(searchResultsController: nil)
     
     @IBOutlet weak var showFavouriteButton: UIBarButtonItem!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = true
+        definesPresentationContext = true
+        
         
         manager.startLoadingStocks(tableView: tableView)
         
@@ -93,5 +102,28 @@ class MainViewController: UITableViewController {
         }
         
         tableView.reloadData()
+    }
+}
+
+extension MainViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+//        print(manager.stocks)
+//
+//        let filteredStocks = manager.stocks.filter { (stock) -> Bool in
+//
+//            guard let text = searchController.searchBar.text,
+//                  let tiker = stock.tiker,
+//                  let name = stock.name else { return false }
+//
+//            var returningValue = false
+//
+//            if tiker.contains(text) || name.contains(text) {
+//                returningValue = true
+//            }
+//
+//            return returningValue
+//        }
     }
 }

@@ -59,7 +59,6 @@ class WebSocketManager {
                         self.dataArray.append(WebSocket(s: singleData.s, p: singleData.p, t: singleData.t, v: singleData.v, c: singleData.c))
                     }
                 case .data(let data):
-                    // В вашем варианте данные могут приходить сразу сюда
                     print("Received data: \(data)")
                 @unknown default:
                     debugPrint("Unknown message")
