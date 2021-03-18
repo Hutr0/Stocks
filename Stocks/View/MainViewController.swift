@@ -8,54 +8,36 @@
 import UIKit
 import CoreData
 
-class MainViewController: UITableViewController {
+class MainViewController: UIViewController {
     
     let manager = MainManager()
     let searchController = UISearchController(searchResultsController: nil)
     
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showFavouriteButton: UIBarButtonItem!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = true
-        definesPresentationContext = true
-        
+        navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = false
         
         manager.startLoadingStocks(tableView: tableView)
-        
-//        let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
-//        do {
-//            manager.stocks = try manager.context.fetch(fetchRequest)
-//        } catch let error as NSError {
-//            print(error.localizedDescription)
-//        }
-        
-//        let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
-//
-//        do {
-//            let object = try manager.context.fetch(fetchRequest)
-//            for o in object {
-//
-//                manager.context.delete(o)
-//            }
-//            try manager.context.save()
-//        } catch let error as NSError {
-//            print(error.localizedDescription)
-//        }
     }
+}
 
+extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table view data source
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return manager.stocks.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MainCell
     
         cell.activityIndicator.isHidden = false
@@ -68,11 +50,11 @@ class MainViewController: UITableViewController {
     
     // MARK: - Table view delegate
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
     
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let favourite = manager.favouriteAction(tableView, indexPath, isFavourite: manager.isFavourite)
         
@@ -109,21 +91,30 @@ extension MainViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         
-//        print(manager.stocks)
-//
-//        let filteredStocks = manager.stocks.filter { (stock) -> Bool in
-//
-//            guard let text = searchController.searchBar.text,
-//                  let tiker = stock.tiker,
-//                  let name = stock.name else { return false }
-//
-//            var returningValue = false
-//
-//            if tiker.contains(text) || name.contains(text) {
-//                returningValue = true
-//            }
-//
-//            return returningValue
-//        }
+        if searchController.searchBar.text != ""  {
+            let filteredStocks = manager.stocks.filter { (stock) -> Bool in
+
+                guard let text = searchController.searchBar.text,
+                      let tiker = stock.tiker,
+                      let name = stock.name else { return false }
+
+                if tiker.contains(text) || name.contains(text) {
+                    return true
+                }
+
+                return false
+            }
+            
+            manager.stocks = filteredStocks
+        } else {
+            if let stash = manager.stashStocks {
+                manager.stocks = stash
+                manager.stashStocks = nil
+            } else {
+                manager.stashStocks = manager.stocks
+            }
+        }
+        
+        tableView.reloadData()
     }
 }

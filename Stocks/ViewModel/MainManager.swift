@@ -132,6 +132,7 @@ class MainManager {
     private func setTimerForStocksUpdating(tableView: UITableView) {
         
         Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
+            
             WebSocketManager.shared.receiveData { (dataArray) in
                 
                 guard let dataArray = dataArray else { return }
