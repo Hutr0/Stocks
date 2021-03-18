@@ -17,15 +17,13 @@ class MainManager {
     var stashForSearchStocks: [Stock]?
     var isNilStocks: Bool = false
     var isFavourite = false
-//    var isSearchBarActive = false
+    var isSearch = false
     
     func startLoadingStocks(tableView: UITableView) {
         
         WebSocketManager.shared.connectToWebSocket()
         
         let fetchRequest: NSFetchRequest<Stock> = Stock.fetchRequest()
-        // let sortDescriptor = NSSortDescriptor(key: "title", ascending: false) // Сортировка
-        // fetchRequest.sortDescriptors = [sortDescriptor] // Присваевыем нашему запросу сортировку
         
         do {
             let fetchedStokes = try self.context.fetch(fetchRequest)
@@ -57,10 +55,9 @@ class MainManager {
             CoreDataManager.save(context: self.context)
             
             if isFavourite {
-//                print(self.isSearchBarActive)
-//                if self.isSearchBarActive {
-//                    self.stashForSearchStocks?.remove(at: indexPath.row)
-//                }
+                if self.isSearch {
+                    self.stashForSearchStocks!.remove(at: indexPath.row)
+                }
                 self.stocks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .right)
             }
