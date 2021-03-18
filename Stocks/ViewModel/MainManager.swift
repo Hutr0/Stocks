@@ -141,64 +141,158 @@ class MainManager {
     
     private func setTimerForStocksUpdating(tableView: UITableView) {
         
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-            
+        var tikers: [String] = []
+        
+        for stock in stocks {
+            guard let tiker = stock.tiker else { print("Error: tiker not found"); return }
+            tikers.append(tiker)
+        }
+        
+        var dataForUpdate: [WebSocket] = []
+        
+        // Timer для WebSocket
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { (timer) in
             WebSocketManager.shared.receiveData { (dataArray) in
-                
                 guard let dataArray = dataArray else { return }
                 
-                var sequence = [IndexPath]()
-                var i = 0
-                for stock in self.stocks {
-                    for data in dataArray {
-                        if stock.tiker == data.s {
-                            if stock.isOpenCostSet == true {
-                                if String(format: "%.2f", stock.cost) != String(format: "%.2f", data.p) {
-                                    let percent = data.p - stock.openCost
-                                    stock.change = percent
-                                    stock.cost = data.p
-                                    sequence.append(IndexPath(row: i, section: 0))
+                var isContained = false
+                
+                for data in dataArray {
+                    for tiker in tikers {
+                        if data.s == tiker {
+                            for u in dataForUpdate {
+                                if data.s == u.s {
+                                    isContained = true
                                 }
                             }
                         }
                     }
                     
-                    if stock.isOpenCostSet == false {
-                        guard let tiker = stock.tiker else { print("Error: tiker = nil"); return }
-                        let net = NetworkManager()
-                        
-                        net.getStocksOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
-                            
-                            // Проверка на ошибку вывода информации с запроса
-                            if j == -1 {
-                                i -= 1
-                                return
-                            }
-                            
-                            let open = cost[0]
-                            let current = cost[1]
-                            let percent = current - open
-                            
-                            stock.openCost = open
-                            stock.cost = current
-                            stock.change = percent
-                            stock.isOpenCostSet = true
-                            
-                            sequence.append(IndexPath(item: j, section: 0))
-                        }
+                    if !isContained {
+                        dataForUpdate.append(data)
                     }
-                    
-                    i += 1
-                }
-                
-                if sequence != [] {
-                    DispatchQueue.main.async {
-                        tableView.reloadRows(at:sequence, with: .automatic)
-                    }
-                    CoreDataManager.save(context: self.context)
                 }
             }
+            print(dataForUpdate.count)
         }
+        
+        // Timer для подгрузки данных
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
+            
+            var sequence = [IndexPath]()
+            var i = 0
+            for stock in self.stocks {
+                for data in dataForUpdate {
+                    if stock.tiker == data.s {
+                        if stock.isOpenCostSet == true {
+                            if String(format: "%.2f", stock.cost) != String(format: "%.2f", data.p) {
+                                let percent = data.p - stock.openCost
+                                stock.change = percent
+                                stock.cost = data.p
+                                sequence.append(IndexPath(row: i, section: 0))
+                            }
+                        }
+                    }
+                }
+                
+                if stock.isOpenCostSet == false {
+                    guard let tiker = stock.tiker else { print("Error: tiker = nil"); return }
+                    let net = NetworkManager()
+                    
+                    net.getStocksOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
+                        
+                        // Проверка на ошибку вывода информации с запроса
+                        if j == -1 {
+                            i -= 1
+                            return
+                        }
+                        
+                        let open = cost[0]
+                        let current = cost[1]
+                        let percent = current - open
+                        
+                        stock.openCost = open
+                        stock.cost = current
+                        stock.change = percent
+                        stock.isOpenCostSet = true
+                        
+                        sequence.append(IndexPath(item: j, section: 0))
+                    }
+                }
+                
+                i += 1
+            }
+            
+            if sequence != [] {
+                DispatchQueue.main.async {
+                    tableView.reloadRows(at:sequence, with: .automatic)
+                }
+                CoreDataManager.save(context: self.context)
+            }
+            
+            print("Complete")
+            
+            dataForUpdate = []
+        }
+        
+//        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+//
+//            WebSocketManager.shared.receiveData { (dataArray) in
+//
+//                guard let dataArray = dataArray else { return }
+//
+//                var sequence = [IndexPath]()
+//                var i = 0
+//                for stock in self.stocks {
+//                    for data in dataArray {
+//                        if stock.tiker == data.s {
+//                            if stock.isOpenCostSet == true {
+//                                if String(format: "%.2f", stock.cost) != String(format: "%.2f", data.p) {
+//                                    let percent = data.p - stock.openCost
+//                                    stock.change = percent
+//                                    stock.cost = data.p
+//                                    sequence.append(IndexPath(row: i, section: 0))
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    if stock.isOpenCostSet == false {
+//                        guard let tiker = stock.tiker else { print("Error: tiker = nil"); return }
+//                        let net = NetworkManager()
+//
+//                        net.getStocksOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
+//
+//                            // Проверка на ошибку вывода информации с запроса
+//                            if j == -1 {
+//                                i -= 1
+//                                return
+//                            }
+//
+//                            let open = cost[0]
+//                            let current = cost[1]
+//                            let percent = current - open
+//
+//                            stock.openCost = open
+//                            stock.cost = current
+//                            stock.change = percent
+//                            stock.isOpenCostSet = true
+//
+//                            sequence.append(IndexPath(item: j, section: 0))
+//                        }
+//                    }
+//
+//                    i += 1
+//                }
+//
+//                if sequence != [] {
+//                    DispatchQueue.main.async {
+//                        tableView.reloadRows(at:sequence, with: .automatic)
+//                    }
+//                    CoreDataManager.save(context: self.context)
+//                }
+//            }
+//        }
     }
     
     private func getNotNilStocks(tableView: UITableView) {
