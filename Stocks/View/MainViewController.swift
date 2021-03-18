@@ -87,6 +87,7 @@ class MainViewController: UITableViewController {
         } else {
             if let stash = manager.stashStocks {
                 manager.stocks = stash
+                manager.stashStocks = nil
                 showFavouriteButton.image = UIImage(systemName: "heart")
             }
         }

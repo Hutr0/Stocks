@@ -129,8 +129,6 @@ class MainManager {
         }
     }
     
-    // MARK: - Private methods
-    
     private func setTimerForStocksUpdating(tableView: UITableView) {
         
         Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
