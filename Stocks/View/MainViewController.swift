@@ -114,6 +114,10 @@ extension MainViewController: UISearchResultsUpdating, UISearchBarDelegate {
         tableView.reloadData()
     }
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        manager.isSearch = false
+    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         if !manager.isSearch {
             manager.stashForSearchStocks = manager.stocks

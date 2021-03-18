@@ -56,7 +56,14 @@ class MainManager {
             
             if isFavourite {
                 if self.isSearch {
-                    self.stashForSearchStocks!.remove(at: indexPath.row)
+                    let tiker = stock.tiker
+                    var i = 0
+                    for stock in self.stashForSearchStocks! {
+                        if tiker == stock.tiker {
+                            self.stashForSearchStocks!.remove(at: i)
+                        }
+                        i += 1
+                    }
                 }
                 self.stocks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .right)
@@ -146,8 +153,10 @@ class MainManager {
                     for data in dataArray {
                         if stock.tiker == data.s {
                             if stock.isOpenCostSet == true {
-                                let percent = data.p - stock.openCost
-                                if stock.change != percent && stock.cost != data.p {
+//                                print("\(stock.cost) &  \(data.p)")
+                                if String(format: "%.2f", stock.cost) != String(format: "%.2f", data.p) {
+//                                    print("1")
+                                    let percent = data.p - stock.openCost
                                     stock.change = percent
                                     stock.cost = data.p
                                     sequence.append(IndexPath(row: i, section: 0))
@@ -191,6 +200,8 @@ class MainManager {
                     }
                     CoreDataManager.save(context: self.context)
                 }
+                
+                sequence = []
             }
         }
     }
