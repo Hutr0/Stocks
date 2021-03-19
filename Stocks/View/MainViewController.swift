@@ -29,10 +29,20 @@ class MainViewController: UIViewController {
         
         manager.startLoadingStocks(tableView: tableView)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail" {
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            
+            let stock = manager.stocks[indexPath.row]
+            
+            let detailVC = segue.destination as! DetailViewController
+            detailVC.stock = stock
+        }
+    }
 }
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
-    // MARK: - Table view data source
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return manager.stocks.count
@@ -49,8 +59,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    // MARK: - Table view delegate
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
@@ -60,6 +68,10 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         let favourite = manager.favouriteAction(tableView, indexPath, isFavourite: manager.isFavourite)
         
         return UISwipeActionsConfiguration(actions: [favourite])
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetail", sender: self)
     }
     
     @IBAction func showFavouriteStocks(_ sender: UIBarButtonItem) {

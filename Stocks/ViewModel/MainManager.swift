@@ -173,11 +173,10 @@ class MainManager {
                     }
                 }
             }
-            print(dataForUpdate.count)
         }
         
         // Timer для подгрузки данных
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
             
             var sequence = [IndexPath]()
             var i = 0
@@ -229,8 +228,6 @@ class MainManager {
                 }
                 CoreDataManager.save(context: self.context)
             }
-            
-            print("Complete")
             
             dataForUpdate = []
         }

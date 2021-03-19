@@ -48,6 +48,9 @@ class WebSocketManager {
         webSocketTask.receive { result in
             switch result {
             case .failure(let error):
+//                if error.localizedDescription.contains("Socket is not connected") {
+//                    self.connectToWebSocket()
+//                }
                 print("Error in receiving message: \(error)")
             case .success(let message):
                 switch message {

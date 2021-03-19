@@ -116,11 +116,28 @@
                     <connections>
                         <outlet property="showFavouriteButton" destination="60q-P4-hdn" id="l07-HV-hAw"/>
                         <outlet property="tableView" destination="heF-U6-zNf" id="kt6-IV-zAY"/>
+                        <segue destination="b73-wk-FRV" kind="show" identifier="showDetail" id="vTR-PZ-Pwd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a0p-W9-aAc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="626.15384615384619" y="-50.473933649289094"/>
+            <point key="canvasLocation" x="635" y="-50"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="Ruo-LJ-xhh">
+            <objects>
+                <viewController id="b73-wk-FRV" customClass="DetailViewController" customModule="Stocks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QH4-La-30M">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="WsO-Yu-SMX"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="IpF-kA-ya0"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a11-GQ-WB3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1477" y="-50"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3LK-bf-vqy">

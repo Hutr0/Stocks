@@ -21,6 +21,7 @@
 		E065E75825FBA7C600E0E11E /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E75725FBA7C600E0E11E /* MainCell.swift */; };
 		E065E75B25FBA83C00E0E11E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E75A25FBA83C00E0E11E /* NetworkManager.swift */; };
 		E065E75E25FBADFC00E0E11E /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E75D25FBADFC00E0E11E /* Collection.swift */; };
+		E0AA62762604C3E200023841 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AA62752604C3E100023841 /* DetailViewController.swift */; };
 		E0B81B5425FBF7E90038A8B0 /* StockQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B81B5325FBF7E90038A8B0 /* StockQuote.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		E065E75725FBA7C600E0E11E /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
 		E065E75A25FBA83C00E0E11E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E065E75D25FBADFC00E0E11E /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
+		E0AA62752604C3E100023841 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E0B81B5325FBF7E90038A8B0 /* StockQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockQuote.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +113,7 @@
 			children = (
 				E065E75325FBA7A500E0E11E /* MainViewController.swift */,
 				E065E75725FBA7C600E0E11E /* MainCell.swift */,
+				E0AA62752604C3E100023841 /* DetailViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0AA62762604C3E200023841 /* DetailViewController.swift in Sources */,
 				E000A52325FD709F002FE220 /* DataManger.swift in Sources */,
 				E000A51825FD3C1F002FE220 /* MainManager.swift in Sources */,
 				E065E75B25FBA83C00E0E11E /* NetworkManager.swift in Sources */,
