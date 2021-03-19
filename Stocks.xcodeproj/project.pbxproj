@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E000A51825FD3C1F002FE220 /* MainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A51725FD3C1E002FE220 /* MainManager.swift */; };
-		E000A52325FD709F002FE220 /* DataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A52225FD709F002FE220 /* DataManger.swift */; };
+		E000A52325FD709F002FE220 /* CoreDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A52225FD709F002FE220 /* CoreDataManger.swift */; };
 		E000A52C25FF52E8002FE220 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A52B25FF52E8002FE220 /* WebSocketManager.swift */; };
 		E000A53125FF7D08002FE220 /* WebSocketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A53025FF7D08002FE220 /* WebSocketModel.swift */; };
 		E065E73625FBA56300E0E11E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E73525FBA56300E0E11E /* AppDelegate.swift */; };
@@ -27,7 +27,7 @@
 
 /* Begin PBXFileReference section */
 		E000A51725FD3C1E002FE220 /* MainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainManager.swift; sourceTree = "<group>"; };
-		E000A52225FD709F002FE220 /* DataManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManger.swift; sourceTree = "<group>"; };
+		E000A52225FD709F002FE220 /* CoreDataManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManger.swift; sourceTree = "<group>"; };
 		E000A52B25FF52E8002FE220 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		E000A53025FF7D08002FE220 /* WebSocketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketModel.swift; sourceTree = "<group>"; };
 		E065E73225FBA56300E0E11E /* Stocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,7 +103,7 @@
 				E000A51725FD3C1E002FE220 /* MainManager.swift */,
 				E065E75A25FBA83C00E0E11E /* NetworkManager.swift */,
 				E000A52B25FF52E8002FE220 /* WebSocketManager.swift */,
-				E000A52225FD709F002FE220 /* DataManger.swift */,
+				E000A52225FD709F002FE220 /* CoreDataManger.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -200,7 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0AA62762604C3E200023841 /* DetailViewController.swift in Sources */,
-				E000A52325FD709F002FE220 /* DataManger.swift in Sources */,
+				E000A52325FD709F002FE220 /* CoreDataManger.swift in Sources */,
 				E000A51825FD3C1F002FE220 /* MainManager.swift in Sources */,
 				E065E75B25FBA83C00E0E11E /* NetworkManager.swift in Sources */,
 				E065E73625FBA56300E0E11E /* AppDelegate.swift in Sources */,

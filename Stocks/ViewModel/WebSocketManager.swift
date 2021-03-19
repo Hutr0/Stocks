@@ -9,20 +9,18 @@ import Foundation
 
 class WebSocketManager {
     
-    public static let shared = WebSocketManager() // создаем Синглтон
+    public static let shared = WebSocketManager()
     private init(){}
     
     private var dataArray: [WebSocket] = []
     
     let webSocketTask = URLSession(configuration: .default).webSocketTask(with: URL(string: "wss://ws.finnhub.io?token=c19j00n48v6prmim2b9g")!)
     
-    //функция вызова подключения
     public func connectToWebSocket() {
         webSocketTask.resume()
 //        self.receiveData() { _ in }
     }
     
-    //функция подписки на что либо
     public func subscribe(symbol: String) {
         let message = URLSessionWebSocketTask.Message.string("{\"type\":\"subscribe\",\"symbol\":\"\(symbol)\"}")
         webSocketTask.send(message) { error in
@@ -32,7 +30,6 @@ class WebSocketManager {
         }
     }
     
-    //функция отписки от чего либо
     public func unSubscribe(symbol: String) {
         let message = URLSessionWebSocketTask.Message.string("{\"type\":\"subscribe\",\"symbol\":\"\(symbol)\"}")
         webSocketTask.send(message) { error in
@@ -42,15 +39,11 @@ class WebSocketManager {
         }
     }
     
-    //функция получения данных, с эскейпингом чтобы получить данные наружу
     func receiveData(completion: @escaping ([WebSocket]?) -> Void) {
         
         webSocketTask.receive { result in
             switch result {
             case .failure(let error):
-//                if error.localizedDescription.contains("Socket is not connected") {
-//                    self.connectToWebSocket()
-//                }
                 print("Error in receiving message: \(error)")
             case .success(let message):
                 switch message {
@@ -67,10 +60,10 @@ class WebSocketManager {
                     debugPrint("Unknown message")
                 }
                 
-//                self.receiveData() { (dataArray) in completion(dataArray) } // рекурсия
+//                self.receiveData() { (dataArray) in completion(dataArray) }
             }
         }
-        completion(self.dataArray) // отправляем в комплишн то что насобирали в нашу модель
+        completion(self.dataArray)
         dataArray = []
     }
 }

@@ -12,17 +12,9 @@ class NetworkManager {
     func getStocksName(completion: @escaping ([[String]]) -> ()) {
         
         guard let url = URL(string: "https://mboum.com/api/v1/co/collections/?list=most_actives&start=0") else { print("URL Error in getStockName()"); return }
+        let headers = ["X-Mboum-Secret": "demo"]
         
-        let headers = [
-            "X-Mboum-Secret": "demo"
-        ]
-        
-        let request = NSMutableURLRequest(url: url)
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
-        
-        let session = URLSession.shared
-        session.dataTask(with: request as URLRequest) { (data, response, error) in
+        createSession(url: url, headers: headers){ (data, response, error) in
             
             if error != nil {
                 print(error!.localizedDescription)
@@ -44,23 +36,15 @@ class NetworkManager {
             } catch let error {
                 print("Decoder error in getStockName(): \(error.localizedDescription)")
             }
-        }.resume()
+        }
     }
     
     func getStocksOpenCost(tiker: String, currentNumber: Int, completion: @escaping ([Float], _ currentNumber: Int) -> ()) {
         
         guard let url = URL(string: "https://finnhub.io/api/v1/quote?symbol=\(tiker)") else { print("URL Error in getStocksOpenCost()"); return }
+        let headers = ["X-Finnhub-Token" : "c19j00n48v6prmim2b9g"]
         
-        let headers = [
-            "X-Finnhub-Token" : "c19j00n48v6prmim2b9g"
-        ]
-        
-        let request = NSMutableURLRequest(url: url)
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
-        
-        let session = URLSession.shared
-        session.dataTask(with: request as URLRequest) { (data, response, error) in
+        createSession(url: url, headers: headers) { (data, response, error) in
             
             if error != nil {
                 print(error!.localizedDescription)
@@ -82,6 +66,17 @@ class NetworkManager {
                 print("Decoder error in getStocksOpenCost(): \(error.localizedDescription)")
                 completion([], -1)
             }
+        }
+    }
+    
+    private func createSession(url: URL, headers: [String : String], completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = headers
+        
+        let session = URLSession.shared
+        session.dataTask(with: request as URLRequest) { (data, response, error) in
+            completion(data, response, error)
         }.resume()
     }
 }
