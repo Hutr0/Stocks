@@ -105,11 +105,11 @@
                             <constraint firstItem="heF-U6-zNf" firstAttribute="top" secondItem="x5Y-Zh-sqB" secondAttribute="top" id="dlE-mq-ylS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Stocks" id="jJf-Yg-ovb">
+                    <navigationItem key="navigationItem" title="Stocks" largeTitleDisplayMode="never" id="jJf-Yg-ovb">
                         <barButtonItem key="rightBarButtonItem" image="heart" catalog="system" id="60q-P4-hdn">
                             <color key="tintColor" systemColor="systemRedColor"/>
                             <connections>
-                                <action selector="showFavouriteStocks:" destination="IcP-h1-cbZ" id="F5L-gR-qpR"/>
+                                <action selector="showFavourite:" destination="IcP-h1-cbZ" id="F5L-gR-qpR"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -121,7 +121,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a0p-W9-aAc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="635" y="-50"/>
+            <point key="canvasLocation" x="617" y="-50"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="Ruo-LJ-xhh">
@@ -133,7 +133,7 @@
                         <viewLayoutGuide key="safeArea" id="WsO-Yu-SMX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="IpF-kA-ya0"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="IpF-kA-ya0"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a11-GQ-WB3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -144,8 +144,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Mg3-YN-FsA" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gss-N5-wuy">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="gss-N5-wuy">
+                        <rect key="frame" x="0.0" y="44" width="390" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="38"/>

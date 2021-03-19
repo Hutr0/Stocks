@@ -74,55 +74,21 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         performSegue(withIdentifier: "showDetail", sender: self)
     }
     
-    @IBAction func showFavouriteStocks(_ sender: UIBarButtonItem) {
-        manager.isFavourite.toggle()
+    @IBAction func showFavourite(_ sender: UIBarButtonItem) {
         
-        if manager.isFavourite {
-            var favouriteStocks = [Stock]()
-            for stock in manager.stocks {
-                if stock.isFavourite {
-                    favouriteStocks.append(stock)
-                }
-            }
-            manager.stashForFavouriteStocks = manager.stocks
-            manager.stocks = favouriteStocks
-            showFavouriteButton.image = UIImage(systemName: "heart.fill")
-        } else {
-            if let stash = manager.stashForFavouriteStocks {
-                manager.stocks = stash
-                manager.stashForFavouriteStocks = nil
-                showFavouriteButton.image = UIImage(systemName: "heart")
-            }
+        manager.showFavouite() { [weak self] (image) in
+            guard let self = self, let image = image else { return }
+
+            self.showFavouriteButton.image = image
+            self.tableView.reloadData()
         }
-        
-        tableView.reloadData()
     }
 }
 
 extension MainViewController: UISearchResultsUpdating, UISearchBarDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text, let stash = manager.stashForSearchStocks else { return }
-        
-        if text != "" {
-            manager.isSearch = true
-            
-            let filteredStocks = stash.filter { (stock) -> Bool in
-                guard let tiker = stock.tiker, let name = stock.name else { print("Error: stock tiker or name not found"); return false }
-                
-                if tiker.lowercased().contains(text.lowercased()) || name.lowercased().contains(text.lowercased()) {
-                    return true
-                }
-                
-                return false
-            }
-            
-            manager.stocks = filteredStocks
-        } else {
-            manager.isSearch = false
-            manager.stocks = stash
-        }
-
+        manager.updateSearchResults(searchController)
         tableView.reloadData()
     }
     
@@ -137,13 +103,9 @@ extension MainViewController: UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        if !manager.isSearch {
-            guard let stash = manager.stashForSearchStocks else { print("Error: stash was not found"); return }
-            
-            manager.stocks = stash
-            manager.stashForSearchStocks = nil
-            
-            tableView.reloadData()
+        manager.searchBarTextDidEndEditing { [weak self] in
+            guard let self = self else { return }
+            self.tableView.reloadData()
         }
     }
     

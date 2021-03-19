@@ -43,6 +43,8 @@ class MainManager {
         }
     }
     
+    //MARK: - Favourite
+    
     func favouriteAction(_ tableView: UITableView, _ indexPath: IndexPath, isFavourite: Bool) -> UIContextualAction {
         
         let stock = stocks[indexPath.row]
@@ -82,6 +84,69 @@ class MainManager {
         
         return action
     }
+    
+    func showFavouite(completion: @escaping (UIImage?) -> ()) {
+        isFavourite.toggle()
+        
+        var image: UIImage?
+        if isFavourite {
+            var favouriteStocks = [Stock]()
+            for stock in stocks {
+                if stock.isFavourite {
+                    favouriteStocks.append(stock)
+                }
+            }
+            stashForFavouriteStocks = stocks
+            stocks = favouriteStocks
+            image = UIImage(systemName: "heart.fill")
+        } else {
+            if let stash = stashForFavouriteStocks {
+                stocks = stash
+                stashForFavouriteStocks = nil
+                image = UIImage(systemName: "heart")
+            }
+        }
+        
+        completion(image)
+    }
+    
+    //MARK: - Search
+    
+    func updateSearchResults(_ searchController: UISearchController) {
+        guard let text = searchController.searchBar.text, let stash = stashForSearchStocks else { return }
+        
+        if text != "" {
+            isSearch = true
+            
+            let filteredStocks = stash.filter { (stock) -> Bool in
+                guard let tiker = stock.tiker, let name = stock.name else { print("Error: stock tiker or name not found"); return false }
+                
+                if tiker.lowercased().contains(text.lowercased()) || name.lowercased().contains(text.lowercased()) {
+                    return true
+                }
+                
+                return false
+            }
+            
+            stocks = filteredStocks
+        } else {
+            isSearch = false
+            stocks = stash
+        }
+    }
+    
+    func searchBarTextDidEndEditing(completion: @escaping () -> ()) {
+        if !isSearch {
+            guard let stash = stashForSearchStocks else { print("Error: stash was not found"); return }
+            
+            stocks = stash
+            stashForSearchStocks = nil
+            
+            completion()
+        }
+    }
+    
+    //MARK: - Configuring a cell
     
     func getConfiguredCell(indexPath: IndexPath, cell: MainCell) -> MainCell {
         
@@ -138,6 +203,8 @@ class MainManager {
             return cell
         }
     }
+    
+    //MARK: - Timer
     
     private func setTimerForStocksUpdating(tableView: UITableView) {
         
@@ -231,66 +298,9 @@ class MainManager {
             
             dataForUpdate = []
         }
-        
-//        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-//
-//            WebSocketManager.shared.receiveData { (dataArray) in
-//
-//                guard let dataArray = dataArray else { return }
-//
-//                var sequence = [IndexPath]()
-//                var i = 0
-//                for stock in self.stocks {
-//                    for data in dataArray {
-//                        if stock.tiker == data.s {
-//                            if stock.isOpenCostSet == true {
-//                                if String(format: "%.2f", stock.cost) != String(format: "%.2f", data.p) {
-//                                    let percent = data.p - stock.openCost
-//                                    stock.change = percent
-//                                    stock.cost = data.p
-//                                    sequence.append(IndexPath(row: i, section: 0))
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    if stock.isOpenCostSet == false {
-//                        guard let tiker = stock.tiker else { print("Error: tiker = nil"); return }
-//                        let net = NetworkManager()
-//
-//                        net.getStocksOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
-//
-//                            // Проверка на ошибку вывода информации с запроса
-//                            if j == -1 {
-//                                i -= 1
-//                                return
-//                            }
-//
-//                            let open = cost[0]
-//                            let current = cost[1]
-//                            let percent = current - open
-//
-//                            stock.openCost = open
-//                            stock.cost = current
-//                            stock.change = percent
-//                            stock.isOpenCostSet = true
-//
-//                            sequence.append(IndexPath(item: j, section: 0))
-//                        }
-//                    }
-//
-//                    i += 1
-//                }
-//
-//                if sequence != [] {
-//                    DispatchQueue.main.async {
-//                        tableView.reloadRows(at:sequence, with: .automatic)
-//                    }
-//                    CoreDataManager.save(context: self.context)
-//                }
-//            }
-//        }
     }
+    
+    //MARK: - Loading not nil data
     
     private func getNotNilStocks(tableView: UITableView) {
         let net = NetworkManager()
@@ -361,6 +371,8 @@ class MainManager {
         
         CoreDataManager.save(context: self.context)
     }
+    
+    //MARK: - Loading nil data
     
     private func getNilStocks(tableView: UITableView) {
         let net = NetworkManager()
