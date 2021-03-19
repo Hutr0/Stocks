@@ -282,14 +282,7 @@ class MainManager {
                             return
                         }
                         
-                        let open = cost[0]
-                        let current = cost[1]
-                        let percent = current - open
-                        
-                        stock.openCost = open
-                        stock.cost = current
-                        stock.change = percent
-                        stock.isOpenCostSet = true
+                        self.setStockCost(stock: stock, open: cost[0], current: cost[1])
                         
                         sequence.append(IndexPath(item: j, section: 0))
                     }
@@ -328,15 +321,7 @@ class MainManager {
                 }
                 
                 if overlap == false {
-                    
-                    let stockObject = Stock(entity: entity, insertInto: self.context)
-                    
-                    stockObject.tiker = item[0]
-                    stockObject.name = item[1]
-                    stockObject.currency = item[2]
-                    stockObject.isOpenCostSet = false
-                    
-                    self.stocks.append(stockObject)
+                    self.setStockName(entity: entity, tiker: item[0], name: item[1], currency: item[2])
                     
                     DispatchQueue.main.async {
                         tableView.reloadData()
@@ -363,13 +348,7 @@ class MainManager {
                     return
                 }
                 
-                let open = cost[0]
-                let current = cost[1]
-                
-                stock.openCost = open
-                stock.cost = current
-                stock.change = current - open
-                stock.isOpenCostSet = true
+                self.setStockCost(stock: stock, open: cost[0], current: cost[1])
                 
                 DispatchQueue.main.async {
                     tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
@@ -385,19 +364,11 @@ class MainManager {
     
     private func getNilStocks(tableView: UITableView) {
         let net = NetworkManager()
-        
         guard let entity = NSEntityDescription.entity(forEntityName: "Stock", in: self.context) else { return }
         
         net.getStocksName { (items) in
             for item in items {
-                let stockObject = Stock(entity: entity, insertInto: self.context)
-                
-                stockObject.tiker = item[0]
-                stockObject.name = item[1]
-                stockObject.currency = item[2]
-                stockObject.isOpenCostSet = false
-                
-                self.stocks.append(stockObject)
+                self.setStockName(entity: entity, tiker: item[0], name: item[1], currency: item[2])
             }
             
             self.isNilStocks = false
@@ -421,13 +392,7 @@ class MainManager {
                     
                     let stock = self.stocks[j]
                     
-                    let open = cost[0]
-                    let current = cost[1]
-                    
-                    stock.openCost = open
-                    stock.cost = current
-                    stock.change = current - open
-                    stock.isOpenCostSet = true
+                    self.setStockCost(stock: stock, open: cost[0], current: cost[1])
                     
                     DispatchQueue.main.async {
                         tableView.reloadRows(at: [IndexPath(item: j, section: 0)], with: .automatic)
@@ -437,6 +402,28 @@ class MainManager {
             }
         }
         CoreDataManager.save(context: self.context)
+    }
+    
+    private func setStockName(entity: NSEntityDescription, tiker: String, name: String, currency: String) {
+        let stockObject = Stock(entity: entity, insertInto: self.context)
+        
+        stockObject.tiker = tiker
+        stockObject.name = name
+        stockObject.currency = currency
+        stockObject.isOpenCostSet = false
+        
+        self.stocks.append(stockObject)
+    }
+    
+    private func setStockCost(stock: Stock, open: Float, current: Float) {
+        let open = open
+        let current = current
+        let percent = current - open
+        
+        stock.openCost = open
+        stock.cost = current
+        stock.change = percent
+        stock.isOpenCostSet = true
     }
 }
 
