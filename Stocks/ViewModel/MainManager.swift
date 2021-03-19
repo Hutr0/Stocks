@@ -12,7 +12,7 @@ class MainManager {
     
     var context: NSManagedObjectContext!
     
-    var stocks = [Stock]()
+    var stocks: [Stock]!
     var stashForFavouriteStocks: [Stock]?
     var stashForSearchStocks: [Stock]?
     var isNilStocks: Bool = false
@@ -34,6 +34,7 @@ class MainManager {
                 self.stocks = fetchedStokes
                 getNotNilStocks(tableView: tableView)
             } else {
+                self.stocks = [Stock]()
                 getNilStocks(tableView: tableView)
             }
             
@@ -181,13 +182,21 @@ class MainManager {
             }
             
             if String(format: "%.2f", stock.cost).hasSuffix("0") {
-                cell.cost.text = String(format: "%.1f", stock.cost)
+                if String(format: "%.1f", stock.cost).hasSuffix("0") {
+                    cell.cost.text = String(format: "%.0f", stock.cost)
+                } else {
+                    cell.cost.text = String(format: "%.1f", stock.cost)
+                }
             } else {
                 cell.cost.text = String(format: "%.2f", stock.cost)
             }
             
             if String(format: "%.2f", stock.change).hasSuffix("0") {
-                cell.change.text = String(format: "%.1f", stock.change) + "%"
+                if String(format: "%.1f", stock.change).hasSuffix("0") {
+                    cell.change.text = String(format: "%.0f", stock.change) + "%"
+                } else {
+                    cell.change.text = String(format: "%.1f", stock.change) + "%"
+                }
             } else {
                 cell.change.text = String(format: "%.2f", stock.change) + "%"
             }
