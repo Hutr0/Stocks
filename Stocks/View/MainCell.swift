@@ -9,6 +9,7 @@ import UIKit
 
 class MainCell: UITableViewCell {
     
+    @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var ticker: UILabel!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var currency: UILabel!

@@ -40,7 +40,6 @@ class WebSocketManager {
     }
     
     func receiveData(completion: @escaping ([WebSocket]?) -> Void) {
-        
         webSocketTask.receive { result in
             switch result {
             case .failure(let error):

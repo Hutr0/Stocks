@@ -38,6 +38,7 @@ class MainManager {
                 getNilStocks(tableView: tableView)
             }
             
+            loadStocksLogo(tableView: tableView)
             setTimerForStocksUpdating(tableView: tableView)
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -157,6 +158,14 @@ class MainManager {
             cell.ticker.text = stock.tiker
             cell.name.text = stock.name
             
+            if stock.logo != nil {
+                let logo = UIImage(data: stock.logo!)
+                cell.logo.image = logo
+                cell.logo.layer.cornerRadius = 8
+            } else {
+                cell.logo.image = UIImage(systemName: "exclamationmark.arrow.triangle.2.circlepath")
+            }
+            
             guard stock.isOpenCostSet else {
                 
                 cell.currency.text = ""
@@ -213,18 +222,56 @@ class MainManager {
         }
     }
     
+    //MARK: - Loading stocks logo
+    // Изображения грузятся так долго из-за ограничения бесплатной версии finhub :(
+    
+    private func loadStocksLogo(tableView: UITableView) {
+        var i = 0
+        var isAllOpenCostSet = true
+        
+        for stock in stocks {
+            if stock.isOpenCostSet == false {
+                isAllOpenCostSet = false
+            }
+        }
+        
+        if isAllOpenCostSet == true {
+            for stock in stocks {
+                guard stock.logo == nil else { continue }
+                
+                NetworkManager.getStockCompanyProfile(tiker: stock.tiker!, currentNumber: i) { [weak self] (imageData, j) in
+                    
+                    // Проверка на ошибку вывода информации с запроса
+                    if j == -1 {
+                        i -= 1
+                        return
+                    }
+                    
+                    stock.logo = imageData
+                    
+                    DispatchQueue.main.async {
+                        tableView.reloadRows(at: [IndexPath(row: j, section: 0)], with: .automatic)
+                    }
+                    
+                    CoreDataManager.save(context: self!.context)
+                }
+                i += 1
+            }
+        }
+    }
+    
     //MARK: - Timer
     
     private func setTimerForStocksUpdating(tableView: UITableView) {
         
         var tikers: [String] = []
+        var dataForUpdate: [WebSocket] = []
+        var isAllLogoLoaded = true
         
         for stock in stocks {
             guard let tiker = stock.tiker else { print("Error: tiker not found"); return }
             tikers.append(tiker)
         }
-        
-        var dataForUpdate: [WebSocket] = []
         
         // Timer для WebSocket
         Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { (timer) in
@@ -252,9 +299,11 @@ class MainManager {
         }
         
         // Timer для подгрузки данных
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] (timer) in
+            guard let self = self else { return }
             
             var sequence = [IndexPath]()
+            
             var i = 0
             for stock in self.stocks {
                 for data in dataForUpdate {
@@ -272,9 +321,8 @@ class MainManager {
                 
                 if stock.isOpenCostSet == false {
                     guard let tiker = stock.tiker else { print("Error: tiker = nil"); return }
-                    let net = NetworkManager()
                     
-                    net.getStocksOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
+                    NetworkManager.getStockOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
                         
                         // Проверка на ошибку вывода информации с запроса
                         if j == -1 {
@@ -288,27 +336,34 @@ class MainManager {
                     }
                 }
                 
+                if stock.logo == nil {
+                    isAllLogoLoaded = false
+                }
+                
                 i += 1
+            }
+            
+            if !isAllLogoLoaded {
+                self.loadStocksLogo(tableView: tableView)
+                isAllLogoLoaded = true
             }
             
             if sequence != [] {
                 DispatchQueue.main.async {
                     tableView.reloadRows(at:sequence, with: .automatic)
                 }
-                CoreDataManager.save(context: self.context)
             }
             
             dataForUpdate = []
         }
     }
     
-    //MARK: - Loading not nil data
+    //MARK: - Loading data
     
     private func getNotNilStocks(tableView: UITableView) {
-        let net = NetworkManager()
         guard let entity = NSEntityDescription.entity(forEntityName: "Stock", in: self.context) else { return }
         
-        net.getStocksName { (items) in
+        NetworkManager.getStocksName { (items) in
             var overlap = false
             var i = 0
             
@@ -339,7 +394,7 @@ class MainManager {
         for stock in stocks {
             guard let tiker = stock.tiker else { print("Error: tiker = nil"); return }
             
-            net.getStocksOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
+            NetworkManager.getStockOpenCost(tiker: tiker, currentNumber: i) { (cost, j) in
                 
                 // Проверка на ошибку вывода информации с запроса
                 if j == -1 {
@@ -360,13 +415,10 @@ class MainManager {
         CoreDataManager.save(context: self.context)
     }
     
-    //MARK: - Loading nil data
-    
     private func getNilStocks(tableView: UITableView) {
-        let net = NetworkManager()
         guard let entity = NSEntityDescription.entity(forEntityName: "Stock", in: self.context) else { return }
         
-        net.getStocksName { (items) in
+        NetworkManager.getStocksName { (items) in
             for item in items {
                 self.setStockName(entity: entity, tiker: item[0], name: item[1], currency: item[2])
             }
@@ -382,7 +434,7 @@ class MainManager {
                 
                 WebSocketManager.shared.subscribe(symbol: item[0])
                 
-                net.getStocksOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
+                NetworkManager.getStockOpenCost(tiker: item[0], currentNumber: i) { (cost, j) in
                     
                     // Проверка на ошибку вывода информации с запроса
                     if j == -1 {
@@ -401,6 +453,7 @@ class MainManager {
                 i += 1
             }
         }
+        
         CoreDataManager.save(context: self.context)
     }
     
