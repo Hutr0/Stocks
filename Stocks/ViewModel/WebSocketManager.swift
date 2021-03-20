@@ -9,12 +9,14 @@ import Foundation
 
 class WebSocketManager {
     
+    // Web Socket иногда перестаёт работать из-за просрочки токена, хотя на сайте про это ничего не говориться, он просто перестаёт работать и всё тут, поэтому его нужно регулярно обновлять
+    
     public static let shared = WebSocketManager()
     private init(){}
     
     private var dataArray: [WebSocket] = []
     
-    let webSocketTask = URLSession(configuration: .default).webSocketTask(with: URL(string: "wss://ws.finnhub.io?token=c19j00n48v6prmim2b9g")!)
+    let webSocketTask = URLSession(configuration: .default).webSocketTask(with: URL(string: "wss://ws.finnhub.io?token=c1b6ahv48v6rcdq9ud90")!)
     
     public func connectToWebSocket() {
         webSocketTask.resume()
@@ -47,6 +49,7 @@ class WebSocketManager {
             case .success(let message):
                 switch message {
                 case .string(let text):
+                    print(text)
                     let data: Data? = text.data(using: .utf8)
                     let srvData = try? WebSocketModel.decode(from: data ?? Data())
                     

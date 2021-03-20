@@ -44,7 +44,7 @@ class NetworkManager {
     static func getStockOpenCost(tiker: String, currentNumber: Int, completion: @escaping ([Float], _ currentNumber: Int) -> ()) {
         
         guard let url = URL(string: "https://finnhub.io/api/v1/quote?symbol=\(tiker)") else { print("URL Error in getStocksOpenCost()"); return }
-        let headers = ["X-Finnhub-Token" : "c19j00n48v6prmim2b9g"]
+        let headers = ["X-Finnhub-Token" : "c1b6ahv48v6rcdq9ud90"]
         
         createSession(url: url, headers: headers) { (data, response, error) in
             
@@ -75,7 +75,7 @@ class NetworkManager {
     static func getStockCompanyProfile(tiker: String, currentNumber: Int, completion: @escaping (Data?, _ currentNumber: Int) -> ()) {
         
         guard let url = URL(string: "https://finnhub.io/api/v1/stock/profile2?symbol=\(tiker)") else { print("URL Error in getStockCompanyProfile()"); return }
-        let headers = ["X-Finnhub-Token" : "c19j00n48v6prmim2b9g"]
+        let headers = ["X-Finnhub-Token" : "c1b6ahv48v6rcdq9ud90"]
         
         createSession(url: url, headers: headers) { (data, response, error) in
             
