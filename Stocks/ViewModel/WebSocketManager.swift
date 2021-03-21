@@ -16,7 +16,7 @@ class WebSocketManager {
     
     private var dataArray: [WebSocket] = []
     
-    let webSocketTask = URLSession(configuration: .default).webSocketTask(with: URL(string: "wss://ws.finnhub.io?token=c1b6ahv48v6rcdq9ud90")!)
+    let webSocketTask = URLSession(configuration: .default).webSocketTask(with: URL(string: "wss://ws.finnhub.io?token=c1bgv9n48v6rcdqa0kn0")!)
     
     public func connectToWebSocket() {
         webSocketTask.resume()
@@ -42,7 +42,9 @@ class WebSocketManager {
     }
     
     func receiveData(completion: @escaping ([WebSocket]?) -> Void) {
+        print("1")
         webSocketTask.receive { result in
+            print("2")
             switch result {
             case .failure(let error):
                 print("Error in receiving message: \(error)")
