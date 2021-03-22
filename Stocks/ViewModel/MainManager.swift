@@ -274,7 +274,7 @@ class MainManager {
         }
         
         // Timer для WebSocket
-        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: 0.7, repeats: true) { (timer) in
             WebSocketManager.shared.receiveData { (dataArray) in
                 guard let dataArray = dataArray else { return }
                 

@@ -9,7 +9,7 @@ import Foundation
 
 class WebSocketManager {
     
-    // Web Socket иногда перестаёт работать из-за просрочки токена, хотя на сайте про это ничего не говориться, он просто перестаёт работать и всё тут, поэтому его нужно регулярно обновлять
+    // Web Socket иногда перестаёт работать либо из-за технических работ на сайте предоставителя, либо из-за просрочки token
     
     public static let shared = WebSocketManager()
     private init(){}
@@ -42,16 +42,13 @@ class WebSocketManager {
     }
     
     func receiveData(completion: @escaping ([WebSocket]?) -> Void) {
-        print("1")
         webSocketTask.receive { result in
-            print("2")
             switch result {
             case .failure(let error):
                 print("Error in receiving message: \(error)")
             case .success(let message):
                 switch message {
                 case .string(let text):
-                    print(text)
                     let data: Data? = text.data(using: .utf8)
                     let srvData = try? WebSocketModel.decode(from: data ?? Data())
                     
