@@ -267,6 +267,7 @@ class MainManager {
         var tikers: [String] = []
         var dataForUpdate: [WebSocket] = []
         var isAllLogoLoaded = true
+        var emptyTimerCounter = 0
         
         for stock in stocks {
             guard let tiker = stock.tiker else { print("Error: tiker not found"); return }
@@ -301,6 +302,15 @@ class MainManager {
         // Timer для подгрузки данных
         Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] (timer) in
             guard let self = self else { return }
+            
+            if emptyTimerCounter >= 2 {
+                let alert = UIAlertController(title: "WebSocket unavailable", message: "Автоматическое обновление данных будет приостановлено, так как WebSocket в данный момент недоступен.", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alert.addAction(ok)
+                let mv = tableView.delegate as! MainViewController
+                mv.present(alert, animated: true, completion: nil)
+                timer.invalidate()
+            }
             
             var sequence = [IndexPath]()
             
@@ -354,11 +364,18 @@ class MainManager {
                 }
             }
             
+            if dataForUpdate.isEmpty {
+                emptyTimerCounter += 1
+            } else {
+                emptyTimerCounter = 0
+            }
+            
             dataForUpdate = []
         }
     }
     
     //MARK: - Loading data
+    // Если несколько раз подряд перезайти в приложение, то бесплатная версия Mboum выдаст ошибку количества запросов из-за чего данные уйдут в обновление и придётся ждать. Я сделал проверку даты, которая позволила бы не обновлять данные об цене открытия акции, но тогда актуальная процентная ставка так же перестала бы подгружаться при заходе, что может повлечь нежелательные последствия при трейдинге, так что я решил не добавлять это и отправил в стеш до лучших времён
     
     private func getNotNilStocks(tableView: UITableView) {
         guard let entity = NSEntityDescription.entity(forEntityName: "Stock", in: self.context) else { return }
