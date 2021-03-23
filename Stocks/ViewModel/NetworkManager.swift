@@ -72,6 +72,32 @@ class NetworkManager {
         }
     }
     
+    static func getStockCandles(tiker: String, from: Int, to: Int, completion: @escaping (StockCandles) -> ()) {
+        
+        guard let url = URL(string: "https://finnhub.io/api/v1/stock/candle?symbol=\(tiker)&resolution=M&from=\(from)&to=\(to)") else { print("URL Error in getStockCandles()"); return }
+        let headers = ["X-Finnhub-Token" : "c1bgv9n48v6rcdqa0kn0"]
+        
+        createSession(url: url, headers: headers) { (data, response, error) in
+            
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            guard let data = data else { print("Data Error in getStockCandles()"); return }
+            
+            do {
+                let candles = try StockCandles.decode(from: data)
+                
+                guard candles != nil else { print("Error: Candles == nil"); return }
+                
+                completion(candles!)
+            } catch let error as NSError {
+                print("Decoder error in getStockCandles(): \(error.localizedDescription)")
+            }
+        }
+    }
+    
     static func getStockCompanyProfile(tiker: String, currentNumber: Int, completion: @escaping (Data?, _ currentNumber: Int) -> ()) {
         
         guard let url = URL(string: "https://finnhub.io/api/v1/stock/profile2?symbol=\(tiker)") else { print("URL Error in getStockCompanyProfile()"); return }
