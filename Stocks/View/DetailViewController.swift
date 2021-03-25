@@ -9,15 +9,11 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
-    let manager = DetailManager()
+    var stock: Stock!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = manager.stock.tiker
         
-        manager.getStockCandlesForTheYear()
     }
-    
-    // Stock Candles
 }
