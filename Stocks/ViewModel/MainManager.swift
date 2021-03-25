@@ -161,7 +161,6 @@ class MainManager {
             if stock.logo != nil {
                 let logo = UIImage(data: stock.logo!)
                 cell.logo.image = logo
-                cell.logo.layer.cornerRadius = 8
             } else {
                 cell.logo.image = UIImage(systemName: "exclamationmark.arrow.triangle.2.circlepath")
             }
@@ -239,7 +238,7 @@ class MainManager {
             for stock in stocks {
                 guard stock.logo == nil else { continue }
                 
-                NetworkManager.getStockCompanyProfile(tiker: stock.tiker!, currentNumber: i) { [weak self] (imageData, j) in
+                NetworkManager.getStockCompanyProfile(tiker: stock.tiker!, currentNumber: i) { [weak self] (model, j) in
                     
                     // Проверка на ошибку вывода информации с запроса
                     if j == -1 {
@@ -247,7 +246,7 @@ class MainManager {
                         return
                     }
                     
-                    stock.logo = imageData
+                    stock.logo = model?.logo
                     
                     DispatchQueue.main.async {
                         tableView.reloadRows(at: [IndexPath(row: j, section: 0)], with: .automatic)
