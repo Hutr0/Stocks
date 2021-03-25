@@ -38,7 +38,7 @@ class MainManager {
                 getNilStocks(tableView: tableView)
             }
             
-            loadStocksLogo(tableView: tableView)
+            loadStocksProfile(tableView: tableView)
             setTimerForStocksUpdating(tableView: tableView)
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -221,10 +221,10 @@ class MainManager {
         }
     }
     
-    //MARK: - Loading stocks logo
-    // Изображения грузятся так долго из-за ограничения бесплатной версии finhub :(
+    //MARK: - Loading stocks profile
+    // Логотипы грузятся так долго из-за ограничения бесплатной версии finhub :(
     
-    private func loadStocksLogo(tableView: UITableView) {
+    private func loadStocksProfile(tableView: UITableView) {
         var i = 0
         var isAllOpenCostSet = true
         
@@ -246,6 +246,7 @@ class MainManager {
                         return
                     }
                     
+                    stock.industry = model?.finnhubIndustry
                     stock.logo = model?.logo
                     
                     DispatchQueue.main.async {
@@ -265,7 +266,7 @@ class MainManager {
         
         var tikers: [String] = []
         var dataForUpdate: [WebSocket] = []
-        var isAllLogoLoaded = true
+        var isAllProfilesLoaded = true
         var emptyTimerCounter = 0
         
         for stock in stocks {
@@ -346,15 +347,15 @@ class MainManager {
                 }
                 
                 if stock.logo == nil {
-                    isAllLogoLoaded = false
+                    isAllProfilesLoaded = false
                 }
                 
                 i += 1
             }
             
-            if !isAllLogoLoaded {
-                self.loadStocksLogo(tableView: tableView)
-                isAllLogoLoaded = true
+            if !isAllProfilesLoaded {
+                self.loadStocksProfile(tableView: tableView)
+                isAllProfilesLoaded = true
             }
             
             if sequence != [] {

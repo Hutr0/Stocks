@@ -9,6 +9,7 @@ import UIKit
 
 struct DetailModel {
     
-    let name: String
     let logo: UIImage
+    let name: String
+    let industry: String
 }

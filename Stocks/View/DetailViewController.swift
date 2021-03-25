@@ -13,16 +13,18 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var stockName: UILabel!
     @IBOutlet weak var stockLogo: UIImageView!
+    @IBOutlet weak var stockIndustry: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        manager.configureData { [weak self] (model) in
+        manager.configureDetail { [weak self] (model) in
             
             guard let self = self else { return }
             
             self.stockName.text = model.name
             self.stockLogo.image = model.logo
+            self.stockIndustry.text = "Industry: \(model.industry)"
         }
     }
 }
