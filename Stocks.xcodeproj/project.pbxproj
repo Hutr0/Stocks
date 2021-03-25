@@ -12,8 +12,6 @@
 		E000A52C25FF52E8002FE220 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A52B25FF52E8002FE220 /* WebSocketManager.swift */; };
 		E000A53125FF7D08002FE220 /* WebSocketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A53025FF7D08002FE220 /* WebSocketModel.swift */; };
 		E010B9582606739100ABA6C2 /* CompanyProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E010B9572606739100ABA6C2 /* CompanyProfileModel.swift */; };
-		E013B16B2609D82C00A125B4 /* DetailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E013B16A2609D82C00A125B4 /* DetailManager.swift */; };
-		E013B16E260A311600A125B4 /* StockCandles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E013B16D260A311600A125B4 /* StockCandles.swift */; };
 		E065E73625FBA56300E0E11E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E73525FBA56300E0E11E /* AppDelegate.swift */; };
 		E065E73825FBA56300E0E11E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E065E73725FBA56300E0E11E /* SceneDelegate.swift */; };
 		E065E73D25FBA56300E0E11E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E065E73B25FBA56300E0E11E /* Main.storyboard */; };
@@ -34,8 +32,6 @@
 		E000A52B25FF52E8002FE220 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		E000A53025FF7D08002FE220 /* WebSocketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketModel.swift; sourceTree = "<group>"; };
 		E010B9572606739100ABA6C2 /* CompanyProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyProfileModel.swift; sourceTree = "<group>"; };
-		E013B16A2609D82C00A125B4 /* DetailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailManager.swift; sourceTree = "<group>"; };
-		E013B16D260A311600A125B4 /* StockCandles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockCandles.swift; sourceTree = "<group>"; };
 		E065E73225FBA56300E0E11E /* Stocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E065E73525FBA56300E0E11E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E065E73725FBA56300E0E11E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,7 +103,6 @@
 			isa = PBXGroup;
 			children = (
 				E000A51725FD3C1E002FE220 /* MainManager.swift */,
-				E013B16A2609D82C00A125B4 /* DetailManager.swift */,
 				E065E75A25FBA83C00E0E11E /* NetworkManager.swift */,
 				E000A52B25FF52E8002FE220 /* WebSocketManager.swift */,
 				E000A52225FD709F002FE220 /* CoreDataManger.swift */,
@@ -132,7 +127,6 @@
 				E0B81B5325FBF7E90038A8B0 /* StockQuote.swift */,
 				E000A53025FF7D08002FE220 /* WebSocketModel.swift */,
 				E010B9572606739100ABA6C2 /* CompanyProfileModel.swift */,
-				E013B16D260A311600A125B4 /* StockCandles.swift */,
 				E065E73E25FBA56300E0E11E /* Stocks.xcdatamodeld */,
 			);
 			path = Model;
@@ -208,7 +202,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E013B16B2609D82C00A125B4 /* DetailManager.swift in Sources */,
 				E010B9582606739100ABA6C2 /* CompanyProfileModel.swift in Sources */,
 				E0AA62762604C3E200023841 /* DetailViewController.swift in Sources */,
 				E000A52325FD709F002FE220 /* CoreDataManger.swift in Sources */,
@@ -219,7 +212,6 @@
 				E065E75E25FBADFC00E0E11E /* Collection.swift in Sources */,
 				E065E74025FBA56300E0E11E /* Stocks.xcdatamodeld in Sources */,
 				E065E73825FBA56300E0E11E /* SceneDelegate.swift in Sources */,
-				E013B16E260A311600A125B4 /* StockCandles.swift in Sources */,
 				E000A52C25FF52E8002FE220 /* WebSocketManager.swift in Sources */,
 				E065E75425FBA7A500E0E11E /* MainViewController.swift in Sources */,
 				E065E75825FBA7C600E0E11E /* MainCell.swift in Sources */,

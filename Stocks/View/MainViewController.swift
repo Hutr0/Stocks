@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
             let stock = manager.stocks[indexPath.row]
             
             let detailVC = segue.destination as! DetailViewController
-            detailVC.manager.stock = stock
+            detailVC.stock = stock
         }
     }
 }
