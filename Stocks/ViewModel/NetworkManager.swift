@@ -72,7 +72,7 @@ class NetworkManager {
         }
     }
     
-    static func getStockCompanyProfile(tiker: String, currentNumber: Int, completion: @escaping (CompanyProfileModel?, _ currentNumber: Int) -> ()) {
+    static func getStockLogo(tiker: String, currentNumber: Int, completion: @escaping (Data?, _ currentNumber: Int) -> ()) {
         
         guard let url = URL(string: "https://finnhub.io/api/v1/stock/profile2?symbol=\(tiker)") else { print("URL Error in getStockCompanyProfile()"); return }
         let headers = ["X-Finnhub-Token" : "c1bgv9n48v6rcdqa0kn0"]
@@ -88,23 +88,13 @@ class NetworkManager {
             guard let data = data else { print("Data Error in getStockCompanyProfile()"); return }
             
             do {
-                let companyProfile = try CompanyProfileModelFromNetwork.decode(from: data)
+                let companyProfile = try CompanyProfileModel.decode(from: data)
                 
                 guard companyProfile != nil else { print("Error: Company profile == nil"); return }
                 
                 self.downloadLogo(stringUrl: companyProfile!.logo) { (imageData) in
                     
-                    let profile = CompanyProfileModel(country: companyProfile!.country,
-                                                      exchange: companyProfile!.exchange,
-                                                      ipo: companyProfile!.ipo,
-                                                      marketCapitalization: companyProfile!.marketCapitalization,
-                                                      phone: companyProfile!.phone,
-                                                      shareOutstanding: companyProfile!.shareOutstanding,
-                                                      weburl: companyProfile!.weburl,
-                                                      finnhubIndustry: companyProfile!.finnhubIndustry,
-                                                      logo: imageData)
-                    
-                    completion(profile, currentNumber)
+                    completion(imageData, currentNumber)
                 }
             } catch let error {
                 print("Decoder error in getStockCompanyProfile(): \(error.localizedDescription)")

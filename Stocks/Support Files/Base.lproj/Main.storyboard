@@ -132,70 +132,11 @@
                     <connections>
                         <outlet property="showFavouriteButton" destination="60q-P4-hdn" id="l07-HV-hAw"/>
                         <outlet property="tableView" destination="heF-U6-zNf" id="kt6-IV-zAY"/>
-                        <segue destination="b73-wk-FRV" kind="show" identifier="showDetail" id="vTR-PZ-Pwd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a0p-W9-aAc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="616.92307692307691" y="-50.473933649289094"/>
-        </scene>
-        <!--Detail View Controller-->
-        <scene sceneID="Ruo-LJ-xhh">
-            <objects>
-                <viewController id="b73-wk-FRV" customClass="DetailViewController" customModule="Stocks" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="QH4-La-30M">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A6P-FU-IGq">
-                                <rect key="frame" x="16" y="104" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="GMp-TT-IhJ"/>
-                                    <constraint firstAttribute="height" constant="100" id="bOS-dV-rRH"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stock Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="20" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zw6-sO-Q0T">
-                                <rect key="frame" x="132" y="104" width="242" height="100"/>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="40"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Industry: ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I0V-K9-fnM">
-                                <rect key="frame" x="16" y="220" width="358" height="20.333333333333343"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.38828474280000003" green="0.38811284299999999" blue="0.39607968929999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="WsO-Yu-SMX"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="A6P-FU-IGq" firstAttribute="top" secondItem="WsO-Yu-SMX" secondAttribute="top" constant="16" id="0Ut-e5-Z6b"/>
-                            <constraint firstItem="Zw6-sO-Q0T" firstAttribute="bottom" secondItem="A6P-FU-IGq" secondAttribute="bottom" id="862-o4-cvh"/>
-                            <constraint firstItem="WsO-Yu-SMX" firstAttribute="trailing" secondItem="Zw6-sO-Q0T" secondAttribute="trailing" constant="16" id="EUA-0g-Fym"/>
-                            <constraint firstItem="Zw6-sO-Q0T" firstAttribute="top" secondItem="A6P-FU-IGq" secondAttribute="top" id="YWq-yq-8q8"/>
-                            <constraint firstItem="Zw6-sO-Q0T" firstAttribute="leading" secondItem="A6P-FU-IGq" secondAttribute="trailing" constant="16" id="lrX-fx-yXh"/>
-                            <constraint firstItem="I0V-K9-fnM" firstAttribute="top" secondItem="A6P-FU-IGq" secondAttribute="bottom" constant="16" id="pbW-H9-beB"/>
-                            <constraint firstItem="I0V-K9-fnM" firstAttribute="leading" secondItem="WsO-Yu-SMX" secondAttribute="leading" constant="16" id="tyF-2p-zZu"/>
-                            <constraint firstItem="A6P-FU-IGq" firstAttribute="leading" secondItem="WsO-Yu-SMX" secondAttribute="leading" constant="16" id="xol-aG-Y7d"/>
-                            <constraint firstItem="WsO-Yu-SMX" firstAttribute="trailing" secondItem="I0V-K9-fnM" secondAttribute="trailing" constant="16" id="zsQ-uI-uxZ"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="IpF-kA-ya0"/>
-                    <connections>
-                        <outlet property="stockIndustry" destination="I0V-K9-fnM" id="NL2-oa-krc"/>
-                        <outlet property="stockLogo" destination="A6P-FU-IGq" id="ktc-Ui-awb"/>
-                        <outlet property="stockName" destination="Zw6-sO-Q0T" id="R9G-cy-k0d"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="a11-GQ-WB3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1477" y="-50"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3LK-bf-vqy">

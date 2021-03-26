@@ -38,7 +38,7 @@ class MainManager {
                 getNilStocks(tableView: tableView)
             }
             
-            loadStocksProfile(tableView: tableView)
+            loadStocksLogo(tableView: tableView)
             setTimerForStocksUpdating(tableView: tableView)
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -160,7 +160,11 @@ class MainManager {
             
             if stock.logo != nil {
                 let logo = UIImage(data: stock.logo!)
-                cell.logo.image = logo
+                if logo != nil {
+                    cell.logo.image = logo
+                } else {
+                    cell.logo.image = UIImage(systemName: "exclamationmark.arrow.triangle.2.circlepath")
+                }
             } else {
                 cell.logo.image = UIImage(systemName: "exclamationmark.arrow.triangle.2.circlepath")
             }
@@ -221,10 +225,10 @@ class MainManager {
         }
     }
     
-    //MARK: - Loading stocks profile
+    //MARK: - Loading stocks logo
     // Логотипы грузятся так долго из-за ограничения бесплатной версии finhub :(
     
-    private func loadStocksProfile(tableView: UITableView) {
+    private func loadStocksLogo(tableView: UITableView) {
         var i = 0
         var isAllOpenCostSet = true
         
@@ -238,7 +242,7 @@ class MainManager {
             for stock in stocks {
                 guard stock.logo == nil else { continue }
                 
-                NetworkManager.getStockCompanyProfile(tiker: stock.tiker!, currentNumber: i) { [weak self] (model, j) in
+                NetworkManager.getStockLogo(tiker: stock.tiker!, currentNumber: i) { [weak self] (imageData, j) in
                     
                     // Проверка на ошибку вывода информации с запроса
                     if j == -1 {
@@ -246,8 +250,7 @@ class MainManager {
                         return
                     }
                     
-                    stock.industry = model?.finnhubIndustry
-                    stock.logo = model?.logo
+                    stock.logo = imageData
                     
                     DispatchQueue.main.async {
                         tableView.reloadRows(at: [IndexPath(row: j, section: 0)], with: .automatic)
@@ -266,7 +269,7 @@ class MainManager {
         
         var tikers: [String] = []
         var dataForUpdate: [WebSocket] = []
-        var isAllProfilesLoaded = true
+        var isAllLogoLoaded = true
         var emptyTimerCounter = 0
         
         for stock in stocks {
@@ -347,15 +350,15 @@ class MainManager {
                 }
                 
                 if stock.logo == nil {
-                    isAllProfilesLoaded = false
+                    isAllLogoLoaded = false
                 }
                 
                 i += 1
             }
             
-            if !isAllProfilesLoaded {
-                self.loadStocksProfile(tableView: tableView)
-                isAllProfilesLoaded = true
+            if !isAllLogoLoaded {
+                self.loadStocksLogo(tableView: tableView)
+                isAllLogoLoaded = true
             }
             
             if sequence != [] {
