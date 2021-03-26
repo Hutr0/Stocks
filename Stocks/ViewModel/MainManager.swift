@@ -318,7 +318,7 @@ class MainManager {
                 let mv = tableView.delegate as! MainViewController
                 mv.present(alert, animated: true, completion: nil)
                 timer.invalidate()
-                self.isWebSocketError = true
+                self.isWebSocketError = true 
                 tableView.reloadData()
             }
             
