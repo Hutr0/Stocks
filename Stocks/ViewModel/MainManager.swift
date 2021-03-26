@@ -12,7 +12,7 @@ class MainManager {
     
     var context: NSManagedObjectContext!
     
-    var stocks: [Stock]!
+    var stocks: [Stock] = []
     var stashForFavouriteStocks: [Stock]?
     var stashForSearchStocks: [Stock]?
     var isNilStocks: Bool = false

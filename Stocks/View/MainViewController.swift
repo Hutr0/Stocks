@@ -27,7 +27,14 @@ class MainViewController: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = true
         definesPresentationContext = true
         
-        manager.startLoadingStocks(tableView: tableView)
+        if NetworkManager.isConnectedToNetwork() {
+            manager.startLoadingStocks(tableView: tableView)
+        } else {
+            let alert = UIAlertController(title: "Network connection error", message: nil, preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        }
     }
 }
 
