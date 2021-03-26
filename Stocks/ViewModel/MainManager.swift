@@ -18,6 +18,7 @@ class MainManager {
     var isNilStocks: Bool = false
     var isFavourite = false
     var isSearch = false
+    var isWebSocketError = false
     
     func startLoadingStocks(tableView: UITableView) {
         
@@ -151,6 +152,10 @@ class MainManager {
     //MARK: - Configuring a cell
     
     func getConfiguredCell(indexPath: IndexPath, cell: MainCell) -> MainCell {
+        
+        if isWebSocketError {
+            cell.activityIndicator.stopAnimating()
+        }
         
         if !self.isNilStocks {
             let stock = self.stocks[indexPath.row]
@@ -313,6 +318,8 @@ class MainManager {
                 let mv = tableView.delegate as! MainViewController
                 mv.present(alert, animated: true, completion: nil)
                 timer.invalidate()
+                self.isWebSocketError = true
+                tableView.reloadData()
             }
             
             var sequence = [IndexPath]()
