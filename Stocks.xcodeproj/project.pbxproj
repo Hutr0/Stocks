@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E000A51825FD3C1F002FE220 /* MainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A51725FD3C1E002FE220 /* MainManager.swift */; };
+		E000A51825FD3C1F002FE220 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A51725FD3C1E002FE220 /* MainViewModel.swift */; };
 		E000A52325FD709F002FE220 /* CoreDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A52225FD709F002FE220 /* CoreDataManger.swift */; };
 		E000A52C25FF52E8002FE220 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A52B25FF52E8002FE220 /* WebSocketManager.swift */; };
 		E000A53125FF7D08002FE220 /* WebSocketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000A53025FF7D08002FE220 /* WebSocketModel.swift */; };
@@ -26,7 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E000A51725FD3C1E002FE220 /* MainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainManager.swift; sourceTree = "<group>"; };
+		E000A51725FD3C1E002FE220 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		E000A52225FD709F002FE220 /* CoreDataManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManger.swift; sourceTree = "<group>"; };
 		E000A52B25FF52E8002FE220 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		E000A53025FF7D08002FE220 /* WebSocketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketModel.swift; sourceTree = "<group>"; };
@@ -57,6 +57,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E01CD74A27A94A0600CAB7F0 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				E000A52225FD709F002FE220 /* CoreDataManger.swift */,
+				E000A52B25FF52E8002FE220 /* WebSocketManager.swift */,
+				E065E75A25FBA83C00E0E11E /* NetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		E065E72925FBA56300E0E11E = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +89,7 @@
 				E065E75125FBA6D300E0E11E /* Model */,
 				E065E75025FBA6CD00E0E11E /* View */,
 				E065E74F25FBA6C400E0E11E /* ViewModel */,
+				E01CD74A27A94A0600CAB7F0 /* Managers */,
 				E065E74E25FBA6AD00E0E11E /* Support Files */,
 			);
 			path = Stocks;
@@ -100,10 +111,7 @@
 		E065E74F25FBA6C400E0E11E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				E000A51725FD3C1E002FE220 /* MainManager.swift */,
-				E065E75A25FBA83C00E0E11E /* NetworkManager.swift */,
-				E000A52B25FF52E8002FE220 /* WebSocketManager.swift */,
-				E000A52225FD709F002FE220 /* CoreDataManger.swift */,
+				E000A51725FD3C1E002FE220 /* MainViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -201,7 +209,7 @@
 			files = (
 				E010B9582606739100ABA6C2 /* CompanyProfileModel.swift in Sources */,
 				E000A52325FD709F002FE220 /* CoreDataManger.swift in Sources */,
-				E000A51825FD3C1F002FE220 /* MainManager.swift in Sources */,
+				E000A51825FD3C1F002FE220 /* MainViewModel.swift in Sources */,
 				E065E75B25FBA83C00E0E11E /* NetworkManager.swift in Sources */,
 				E065E73625FBA56300E0E11E /* AppDelegate.swift in Sources */,
 				E0B81B5425FBF7E90038A8B0 /* StockQuote.swift in Sources */,
